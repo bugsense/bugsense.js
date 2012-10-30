@@ -1,17 +1,17 @@
 (function ( root, factory ) {
     if ( typeof define === 'function' && define.amd ) {
         // AMD. Register as an anonymous module.
-        define([ 'zepto' ], function ( $ ) {
+        define(function () {
             // Also create a global in case some scripts
             // that are loaded still are looking for
             // a global even when an AMD loader is in use.
-            return ( root.Bugsense = factory( $ ) );
+            return ( root.Bugsense = factory() );
         });
     } else {
         // Browser globals
-        root.Bugsense = factory( window.$ );
+        root.Bugsense = factory();
     }
-}( this, function ( $ ) {
+}( this, function () {
 
   /**
    * Simple extend() implementation
@@ -23,6 +23,7 @@
     return Object.keys( extra ).forEach( function ( key ) { original[ key ] = extra[ key ]; } );
   };
 
+  // BEGIN - Extracted from Zepto
   var escape = encodeURIComponent;
 
   var isObject = function isObject ( obj ) {
@@ -46,12 +47,13 @@
     });
   };
 
-  var param = function( obj, traditional ){
+  var param = function param ( obj, traditional ) {
     var params = [];
     params.add = function( k, v ){ this.push( escape( k ) + '=' + escape( v ) ); };
     serialize( params, obj, traditional );
     return params.join( '&' ).replace( /%20/g, '+' );
   };
+  // END - Extracted from Zepto
 
   /**
    * Constructor for the Bugsense instance
@@ -77,7 +79,8 @@
    */
   Bugsense.prototype.successHandler = function bugsenseSuccessHandler ( request ) {
     if ( request.target && request.target.readyState != 4 )  { return; }
-    if ( 'console' in window ) { console.log( request ); }
+    // some console.log implementations don't support multiple parameters, guess it's okay in this case to concatenate
+    if ( 'console' in window ) { console.log( 'logged 1 error to Bugsense, status: ' + request.target.responseText ); }
   };
 
   /**
@@ -193,8 +196,6 @@
     // Proceed formatting the data
     var data = this.generateExceptionData( exception, url, line, stack, custom_data );
 
-    console.log( data );
-
     // Send the data over to Bugsense
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.open( 'POST', this.getPostURL(), true );
@@ -202,16 +203,6 @@
     xmlhttp.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded' );
     xmlhttp.onreadystatechange = this.successHandler;
     xmlhttp.send( param( { data: JSON.stringify( data ) } ) );
-
-    // $.ajax({
-    //   url: this.getPostURL(),
-    //   type: 'POST',
-    //   headers: {
-    //     'X-BugSense-Api-Key': this.config.apiKey
-    //   },
-    //   data: { data: JSON.stringify( data ) },
-    //   success: this.successHandler
-    // });
 
   };
 
