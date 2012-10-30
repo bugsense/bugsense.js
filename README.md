@@ -25,3 +25,7 @@ window.onerror = bugsense.notify;
 // catch exceptions
 try { rotateScreen() } catch ( error ) { bugsense.notify( error, { rotation: getCurrentRotation() } ) }
 ```
+
+## Notes
+
+Mostly untested, appengine ( Bugsense PaaS ) was high as a kite during development.
