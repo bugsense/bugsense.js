@@ -34,6 +34,11 @@
     return instance instanceof Array;
   };
 
+  /**
+   * Simple forEach, implements jQuery/Zepto api, sort of, and most likely breaks with arrays: LOL
+   * @param  {Object} obj      To be iterated
+   * @param  {Object} iterator Iterator function
+   */
   var forEach = function forEach ( obj, iterator ) {
     Array.prototype.forEach.call( Object.keys( obj ), function ( key ) {
       iterator( key, obj[ key ] );
