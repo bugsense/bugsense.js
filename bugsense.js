@@ -26,20 +26,31 @@
   // BEGIN - Extracted from Zepto
   var escape = encodeURIComponent;
 
-  var isObject = function isObject ( obj ) {
-    return obj instanceof Object;
+  var isObject = function isObject ( instance ) {
+    return instance instanceof Object;
+  };
+
+  var isArray = function isArray ( instance ) {
+    return instance instanceof Array;
+  };
+
+  var forEach = function forEach ( obj, iterator ) {
+    Array.prototype.forEach.call( Object.keys( obj ), function ( key ) {
+      iterator( key, obj[ key ] );
+    } );
   };
 
   var serialize = function serialize ( params, obj, traditional, scope ) {
-    var array = $.isArray( obj );
-    $.each( obj, function ( key, value ) {
+    var array = isArray( obj );
+
+    forEach( obj, function ( key, value ) {
       if ( scope ) { key = traditional ? scope : scope + '[' + (array ? '' : key) + ']'; }
 
       // handle data in serializeArray() format
       if ( !scope && array ) {
         params.add( value.name, value.value );
       // recurse into nested objects
-      } else if ( traditional ? $.isArray( value ) : isObject( value ) ) {
+      } else if ( traditional ? isArray( value ) : isObject( value ) ) {
         serialize( params, value, traditional, key );
       } else {
         params.add( key, value );
