@@ -47,5 +47,4 @@ bugsense.clearExtraData();
 
 // leave breadcrumb
 bugsense.leaveBreadcrumb( 'Fetch Friendlist' );
-};
 ```
