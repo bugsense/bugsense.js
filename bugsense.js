@@ -131,8 +131,7 @@ var bugsense;
   // Default config
   Bugsense.prototype.config = {
     apiKey     : 'FOOBAR',
-    //url        : 'https://www.bugsense.com/api/errors',
-    url      : 'https://csh-bugsense.fwd.wf/api/errors',
+    url        : 'https://www.bugsense.com/api/errors',
     pingUrl    : 'http://ticks2.bugsense.com/api/ticks', 
     appversion : null, 
     popup      : false, // unless WinJS
