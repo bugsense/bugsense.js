@@ -386,7 +386,7 @@ var bugsense;
         'where'       : [ url, line ].join( ':' ),
         'klass'       : message.split( ':' )[ 0 ],
         'backtrace'   : ( typeof(stack) === 'undefined' ) ? message : stack,
-        'breadcrumbs': this.config.breadcrumbs
+        'breadcrumbs': this.breadcrumbs
       },
       // basic data ( required )
       application_environment: {
