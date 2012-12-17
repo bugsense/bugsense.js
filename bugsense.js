@@ -132,6 +132,7 @@ var bugsense;
   Bugsense.prototype.config = {
     apiKey     : 'FOOBAR',
     url        : 'https://www.bugsense.com/api/errors',
+    //url      : 'https://csh-bugsense.fwd.wf/api/errors',
     pingUrl    : 'http://ticks2.bugsense.com/api/ticks', 
     appversion : null, 
     popup      : false, // unless WinJS
@@ -282,9 +283,8 @@ var bugsense;
    * @return {Object}       An object containing the parsed data as its properties
    */
   Bugsense.prototype.parseError = function bugsenseParseError ( error ) {
-    
     var parsedError = {}
-    // TODO add WinJS
+    // Firefox
     if ( navigator.userAgent.toLowerCase().indexOf('firefox') > -1 ){
         parsedError = {
             message: error.message,
@@ -293,6 +293,7 @@ var bugsense;
             stack: error.stack,
             type: error.name
         }
+    // Unhandled WinJS
     } else if ( this.config.winjs === true && typeof( error.stack ) === 'undefined' ) {
         parsedError = {
             message: error.detail.errorMessage,
@@ -301,6 +302,7 @@ var bugsense;
             stack: ( error.detail.stack === undefined ) ? error.detail.errorMessage : error.detail.stack,
             type: error.detail.errorCode
         };
+    // Handled WinJS
     } else if (this.config.winjs === true && typeof( error.stack ) !== 'undefined') {
         var s = error.stack;
         var tmp = s.substr(s.indexOf('(') + 1, s.indexOf(')') - s.indexOf('(') - 1).split(':');
@@ -312,9 +314,9 @@ var bugsense;
             type: error.stack.split(':')[0],
             handled: true
         };
+    // Webkit
     } else {
         var where_parts = error.stack.split( '\n' ).slice(1)[0].match( /\s+at\s.*(\/.*\..*|<anonymous>:\d*:\d*)/ );
-
         // If .stack is not available
         try {
             var tmp = error.stack;
@@ -324,7 +326,7 @@ var bugsense;
 
         parsedError = {
           message: [ error.name, error.message ].join( ': ' ),
-          url: where_parts[ 1 ].split( ':' )[ 0 ],
+          url: where_parts[ 1 ].split( ':' )[ 0 ].replace("/",""),
           line: where_parts[ 1 ].split( ':' )[ 1 ],
           stack: error.stack,
           type: error.name
@@ -372,7 +374,7 @@ var bugsense;
         // Obligatory
         'name'    : 'bugsense-js',
         // Optional
-        'version' : '0.1'
+        'version' : '1.1'
       },
       // Optional
       // details & custom data about the exception including url, request, response,…
