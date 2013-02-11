@@ -457,7 +457,7 @@ var bugsense;
       var stack;
      
     // Handle cases where only Error object and custom data are sent - url will be the custom_data
-    if ( arguments.length === 2 && this.testException( exception ) ) { custom_data = url; url = undefined; }
+    if ( typeof(url) === 'object' && this.testException( exception ) ) { custom_data = url; url = undefined; }
 
     // If the exception is the full Error object, extract what we want from it
     if ( this.testException( exception ) ) {
