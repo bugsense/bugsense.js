@@ -455,6 +455,7 @@ var bugsense;
    */
   Bugsense.prototype.notify = function bugsenseNotify(exception, url, line, custom_data) {
       var stack;
+    // Prints exception stack to console before the exception is handled by Bugsense
       if (window.console && window.console.error) {
         console.error(exception.stack);
       }
