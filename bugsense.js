@@ -455,8 +455,8 @@ var bugsense;
    */
   Bugsense.prototype.notify = function bugsenseNotify(exception, url, line, custom_data) {
       var stack;
-      if (window.console && window.console.log) {
-        console.log(exception);
+      if (window.console && window.console.error) {
+        console.error(exception.stack);
       }
     // Handle cases where only Error object and custom data are sent - url will be the custom_data
     if ( typeof(url) === 'object' && this.testException( exception ) ) { custom_data = url; url = undefined; }
