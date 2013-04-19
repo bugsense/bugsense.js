@@ -13,7 +13,7 @@ var bugsense;
         // Browser globals
         root.Bugsense = factory();
     }
-}( this, function () {
+}( this, function () { 
 
   /**
    * Simple extend() implementation
