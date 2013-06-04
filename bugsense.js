@@ -13,7 +13,7 @@ var bugsense;
         // Browser globals
         root.Bugsense = factory();
     }
-}( this, function () { 
+}( this, function () {
 
   /**
    * Simple extend() implementation
@@ -93,8 +93,8 @@ var bugsense;
               S4() + S4() + S4()
           );
   }
-    
-  
+
+
   /**
    * Constructor for the Bugsense instance
    * @param {Object} config Overrides for the default config, use to specify api key
@@ -133,8 +133,8 @@ var bugsense;
     apiKey     : 'FOOBAR',
     url        : 'https://www.bugsense.com/api/errors',
     //url      : 'https://csh-bugsense.fwd.wf/api/errors',
-    pingUrl    : 'http://ticks2.bugsense.com/api/ticks', 
-    appversion : null, 
+    pingUrl    : 'http://ticks2.bugsense.com/api/ticks',
+    appversion : null,
     popup      : false, // unless WinJS
     callback   : null,
     context: window,
@@ -142,7 +142,7 @@ var bugsense;
     message: null
   };
 
-  /** 
+  /**
     * Add extra data (meta data) to be sent upon uncaught exception
     * @params {String} key      Key
     * @params {String} value    Value
@@ -153,7 +153,7 @@ var bugsense;
      }
   }
 
-  /** 
+  /**
     * Remove a key value pair from extra data
     * @params {String} key      Key
     */
@@ -161,14 +161,14 @@ var bugsense;
      delete this.extraData[ key ];
   }
 
-  /** 
+  /**
     * Clear extra data
     */
   Bugsense.prototype.clearExtraData = function bugsenseClearExtraData () {
      this.extraData = {};
   }
 
-  /** 
+  /**
     * Leave a breadcrump
     * @params {String} breadcrumb  Breadcrumb
     */
@@ -181,7 +181,7 @@ var bugsense;
      }
   }
 
-  /** 
+  /**
     * Clear breadcrumbs
     */
   Bugsense.prototype.clearBreadcrumbs = function bugsenseClearBreadcrumbs () {
@@ -218,7 +218,7 @@ var bugsense;
           if (request.target.responseText !== undefined && request.target.responseText.indexOf('url') > 0) {
               var response = JSON.parse(request.target.responseText);
               // Display fix notification if set
-       
+
                   var md = new Windows.UI.Popups.MessageDialog(response.data.tickerText);
                   var result, resultOptions = ['Update', 'Cancel'];
                   var cmd;
@@ -241,7 +241,7 @@ var bugsense;
                       return c.label;
                   }).done(function complete() { window.bugsense._die(); });
               // Show popup message is set
-              
+
           } else if (request.target.responseText.length > 0 && request.target.responseText.indexOf('url') < 0) { // NOT OPTIONS
               if (window.bugsense.config.message !== null) {
                   var md = new Windows.UI.Popups.MessageDialog(window.bugsense.config.message);
@@ -264,9 +264,9 @@ var bugsense;
                   // Just die!
                   window.bugsense._die();
               }
-          } 
+          }
       }
-    
+
   };
 
   /**
@@ -316,14 +316,12 @@ var bugsense;
         };
     // Webkit
     } else {
-        var where_parts = error.stack.split( '\n' ).slice(1)[0].match( /\s+at\s.*(\/.*\..*|<anonymous>:\d*:\d*)/ );
         // If .stack is not available
         try {
-            var tmp = error.stack;
+            var where_parts = error.stack.split( '\n' ).slice(1)[0].match( /\s+at\s.*(\/.*\..*|<anonymous>:\d*:\d*)/ );
         } catch ( error ) {
             error.stack = error.message;
         }
-
         parsedError = {
           message: [ error.name, error.message ].join( ': ' ),
           url: where_parts[ 1 ].split( ':' )[ 0 ].replace("/",""),
@@ -477,7 +475,7 @@ var bugsense;
     } else {
         message = exception;
     }
-    
+
     var data = this.generateExceptionData( message, url, line, stack, custom_data );
 
     // Send the data over to Bugsense
