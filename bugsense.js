@@ -324,8 +324,8 @@ var bugsense;
         }
         parsedError = {
           message: [ error.name, error.message ].join( ': ' ),
-          url: where_parts[ 1 ].split( ':' )[ 0 ].replace("/",""),
-          line: where_parts[ 1 ].split( ':' )[ 1 ],
+          url: where_parts ? where_parts[ 1 ].split( ':' )[ 0 ].replace("/",""),
+          line: where_parts ? where_parts[ 1 ].split( ':' )[ 1 ],
           stack: error.stack,
           type: error.name
         };
