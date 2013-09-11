@@ -106,7 +106,7 @@ var bugsense;
       this.breadcrumbs = [];
 
     bugsense = this;
-    if ( typeof(this.config.context.onerror) !== 'undefined' && !this.config.noOnError )
+    if ( typeof(this.config.context.onerror) !== 'undefined' && !this.config.disableOnError )
         this.config.context.onerror = bugsense.onerror;
     // WINJS
     if ( this.config.winjs ) {
