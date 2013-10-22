@@ -33,6 +33,12 @@ module.exports = function(grunt) {
         src: 'Gruntfile.js'
       }
     },
+    concat: {
+      'specs/build/specs.js':[
+        'specs/instanceSpecs.js',
+        'specs/extraDataSpecs.js'
+      ]
+    },
     connect: {
       server: {
         options: {
@@ -44,7 +50,7 @@ module.exports = function(grunt) {
       src: 'bugsense.js',
       options: {
         host: 'http://localhost:7000/',
-        specs:  'specs/**/*.js',
+        specs:  'specs/build/specs.js',
         keepRunner: true
       }
     },
@@ -66,11 +72,12 @@ module.exports = function(grunt) {
   // These plugins provide necessary tasks.
   grunt.loadNpmTasks('grunt-contrib-jasmine');
   grunt.loadNpmTasks('grunt-contrib-connect');
+  grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-watch');
 
   // Default task.
   grunt.registerTask('default', 'specs');
-  grunt.registerTask('specs', ['jshint', 'connect', 'jasmine']);
+  grunt.registerTask('specs', ['concat', 'jshint', 'connect', 'jasmine']);
 
 };
