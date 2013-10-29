@@ -18,4 +18,14 @@ describe("Bugsense::ExtraData", function(){
     expect(Object.keys(bugsense.extraData).length).toEqual(0);
     expect(bugsense.extraData.paying).toBeUndefined();
   });
+  it("should clear all extra data", function(){
+    bugsense.addExtraData( 'dev_env', true );
+    bugsense.addExtraData( 'project_type', 'insights' );
+    expect(Object.keys(bugsense.extraData).length).toEqual(2);
+    bugsense.clearExtraData();
+    expect(Object.keys(bugsense.extraData).length).toEqual(0);
+    expect(bugsense.extraData.dev_env).toBeUndefined();
+    expect(bugsense.extraData.project_type).toBeUndefined();
+
+  });
 });
