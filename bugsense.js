@@ -185,7 +185,7 @@ var bugsense;
     * Clear breadcrumbs
     */
   Bugsense.prototype.clearBreadcrumbs = function bugsenseClearBreadcrumbs () {
-     this.breadcrumbs = {};
+     this.breadcrumbs = []
   }
 
     /**
