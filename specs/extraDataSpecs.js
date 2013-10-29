@@ -26,6 +26,5 @@ describe("Bugsense::ExtraData", function(){
     expect(Object.keys(bugsense.extraData).length).toEqual(0);
     expect(bugsense.extraData.dev_env).toBeUndefined();
     expect(bugsense.extraData.project_type).toBeUndefined();
-
   });
 });

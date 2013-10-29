@@ -36,7 +36,8 @@ module.exports = function(grunt) {
     concat: {
       'specs/build/specs.js':[
         'specs/instanceSpecs.js',
-        'specs/extraDataSpecs.js'
+        'specs/extraDataSpecs.js',
+        'specs/breadcrumbsSpecs.js'
       ]
     },
     connect: {
