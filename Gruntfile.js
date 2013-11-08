@@ -37,7 +37,8 @@ module.exports = function(grunt) {
       'specs/build/specs.js':[
         'specs/instanceSpecs.js',
         'specs/extraDataSpecs.js',
-        'specs/breadcrumbsSpecs.js'
+        'specs/breadcrumbsSpecs.js',
+        'specs/parseSpecs.js'
       ]
     },
     connect: {
