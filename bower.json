@@ -1,0 +1,25 @@
+{
+  "name": "bugsense",
+  "version": "1.1.1",
+  "ignore": [
+    "**/.*",
+    "**/_*",
+    "node_modules",
+    "specs",
+    "libs",
+    "*.md",
+    "Gruntfile.js",
+    "index.html",
+    "package.json",
+    "bower.json"
+  ],
+  "devDependencies": {
+    "jasmine": "~1.3.1"
+    "sinon": "~1.7.3"
+  },
+  "keywords": [
+    "bugsense",
+    "error",
+    "reporting"
+  ]
+}
