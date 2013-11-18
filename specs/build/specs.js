@@ -108,6 +108,9 @@ describe("Bugsense::Parsing Error", function(){
       "stack":"@file:///Users/dtsironis@file:///Users/dtsironis/Spl/bugsense.js/.grunt/grunt-contrib-jasmine/jasmine.js:2106\njasmine.Queue.prototype.next_/onComplete/<@file:///Users/dtsironis/Spl/bugsense.js/.grunt/grunt-contrib-jasmine/jasmine.js:2086\n"
     }
     window.parsedError = bugsense.parseError(error);
-    expect(parsedError.message).toBe('Error: a is not a variable');
+    if (window.navigator.userAgent.match(/Firefox/))
+      expect(parsedError.message).toBe('a is not a variable');
+    else
+      expect(parsedError.message).toBe('Error: a is not a variable');
   });
 });
