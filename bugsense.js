@@ -1,3 +1,11 @@
+/*
+ * Bugsense JavaScript SDK v1.1.1
+ * http://bugsense.com/
+ *
+ * Copyright 2013 Splunk Inc.
+ *
+ * Date: 2013-11-18
+ */
 var bugsense;
 
 (function ( root, factory ) {
