@@ -451,12 +451,15 @@ var bugsense;
    * @param  {String} line        The line number
    * @param  {Object} custom_data Custom data to send over to Bugsense
    */
-  Bugsense.prototype.notify = function bugsenseNotify(exception, url, line, custom_data) {
-      var stack;
+  Bugsense.prototype.notify = function bugsenseNotify(exception, url, line, column, custom_data) {
+    var stack;
     // Prints exception stack to console before the exception is handled by Bugsense
-      if (window.console && window.console.error) {
-        console.error(exception.stack);
-      }
+    if (typeof(column) === 'object') {
+      custom_data = column;
+    }
+    if (window.console && window.console.error) {
+      console.error(exception, url+':'+line);
+    }
     // Handle cases where only Error object and custom data are sent - url will be the custom_data
     if ( typeof(url) === 'object' && this.testException( exception ) ) { custom_data = url; url = undefined; }
 
@@ -528,11 +531,11 @@ var bugsense;
     * Closure function for unhandled exceptions
     *
     */
-  Bugsense.prototype.onerror = function bugsenseonerror(exception, url, line, custom_data) {
+  Bugsense.prototype.onerror = function bugsenseonerror(exception, url, line, column, custom_data) {
       // Ignore bugsense raised exception
       if (window.bugsense.isBugsenseException(exception))
           return false;
-      return window.bugsense.notify(exception, url, line, custom_data);
+      return window.bugsense.notify(exception, url, line, column, custom_data);
   };
 
   Bugsense.prototype.onpromiseerror = function bugsenseonpromiseerror(event) {
