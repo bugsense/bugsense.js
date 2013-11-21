@@ -48,3 +48,19 @@ bugsense.clearExtraData();
 // leave breadcrumb
 bugsense.leaveBreadcrumb( 'Fetch Friendlist' );
 ```
+
+## SDK specs
+
+In order the specs suites for bugsense.js, you should have node and npm install correctly. Then install dependencies, running the following command in the parent folder of this repo:
+
+```npm install```
+
+Also, you should have installed Grunt.js and PhantomJS. For Grunt.js run:
+
+```npm install -g grunt-cli```
+
+In order to install PhantomJS, visit [their website](http://phantomjs.org/) and find the right package for you. If you're using Mac OS X, it's recommender to use Homebrew for installation:
+
+```brew install phantomjs```
+
+When all dependencies are installed, run ```grunt specs``` in order to run the whole suite. If you're developing you can watch your file changes with ```grunt watch```, which will then automatically run your specs.
