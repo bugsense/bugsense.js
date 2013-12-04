@@ -38,7 +38,23 @@ module.exports = function(grunt) {
         'specs/instanceSpecs.js',
         'specs/extraDataSpecs.js',
         'specs/breadcrumbsSpecs.js',
-        'specs/parseSpecs.js'
+        'specs/sendDataSpecs.js',
+        'specs/eventsApiSpecs.js',
+        'specs/parseSpecs.js',
+        'specs/generateExceptionDataSpecs.js',
+        'specs/notifySpecs.js',
+        'specs/cacheSpecs.js',
+        'specs/errorHashSpecs.js',
+        'specs/extendabilitySpecs.js'
+      ],
+      'bugsense.js': [
+        'src/libs/bowser.js',
+        'src/libs/utils.js',
+        'src/libs/tracekit.js',
+        'src/libs/lockr.js',
+        'src/libs/md5.js',
+        'src/bugsense.core.js',
+        'src/bugsense.gae.js'
       ]
     },
     connect: {
@@ -57,6 +73,16 @@ module.exports = function(grunt) {
         keepRunner: true
       }
     },
+    uglify: {
+      options: {
+        mangle: false
+      },
+      bugsense: {
+        files: {
+          'bugsense.min.js': ['bugsense.js']
+        }
+      }
+    },
     watch: {
       gruntfile: {
         files: '<%= jshint.gruntfile.src %>',
@@ -64,7 +90,7 @@ module.exports = function(grunt) {
       },
       js: {
         files: [
-          'bugsense.js',
+          'src/**/*.js',
           'specs/**/*.js'
         ],
         tasks: ['specs']
@@ -78,9 +104,10 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
 
   // Default task.
-  grunt.registerTask('default', 'specs');
-  grunt.registerTask('specs', ['concat', 'jshint', 'connect', 'jasmine']);
+  grunt.registerTask('default', ['concat', 'jshint', 'connect', 'jasmine', 'uglify']);
+  grunt.registerTask('specs', ['concat', 'jshint', 'connect', 'jasmine', 'uglify']);
 
 };

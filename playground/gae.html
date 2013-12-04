@@ -1,0 +1,56 @@
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+
+  <title>Splunksense Playground</title>
+  <script src="../bugsense.js" type="text/javascript" charset="utf-8"></script>
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
+  <script src="example.js" type="text/javascript" charset="utf-8"></script>
+  <script src="lib/alertify.js" type="text/javascript" charset="utf-8"></script>
+  <link rel="stylesheet" href="themes/alertify.core.css" type="text/css" />
+  <link rel="stylesheet" href="themes/alertify.default.css" type="text/css" />
+  <script type="text/javascript" charset="utf-8">
+    var bugsense = new Bugsense({apiKey: '8a581d8a', appName: 'theApp', appVersion: '1.1.1', userIdentifier: 'tsironakos'});
+    bugsense.addExtraData('user_role', 'CEO');
+    bugsense.leaveBreadcrumb('loggedin');
+    bugsense.on('crash', function(){alertify.error('Oops! Seems that something went wrong! <br /> Drop an email at hi@example.com.')});
+  </script>
+  <style type="text/css" media="all">
+  h1, p {
+    font-family: 'Open Sans', sans-serif;
+    margin: 40px 20px;
+  }
+  h1 {
+    font-weight: lighter;
+  }
+  div {
+    padding: 40px 0;
+    position: fixed;
+    background: rgba(255,255,255,0.5);
+    width: 100%;
+    margin: 0;
+    top: 30%;
+  }
+  code {
+    background: #ccc;
+    font-size: 16px;
+    padding: 4px 8px;
+    border-radius: 2px;
+  }
+  body{
+    margin: 0;
+    background: url('http://farm9.staticflickr.com/8390/8554734238_e32ca34653_b.jpg') no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+  }
+  </style>
+</head>
+<body>
+<div>
+<h1>Splunk>sense™ JS SDK playground</h1>
+<p>> Open the <code>console</code> to make some... sense™</p>
+</div>
+</body>
+</html>

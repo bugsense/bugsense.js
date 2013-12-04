@@ -1,4 +1,6 @@
-describe('Bugsense plugin instance', function  () {
+localStorage.clear();
+localStorage.setItem('bugsense_uid', 'this-is-a-uid');
+describe('Bugsense::Instance', function  () {
   it('should have a valid instance', function () {
     expect(Bugsense).toBeDefined();
     expect(Bugsense).toBeTruthy();
@@ -17,27 +19,51 @@ describe('Bugsense plugin instance', function  () {
     expect(typeof(Bugsense.prototype.onpromiseerror)).toBe('function');
     expect(typeof(Bugsense.prototype.parseError)).toBe('function');
     expect(typeof(Bugsense.prototype.removeExtraData)).toBe('function');
-    expect(typeof(Bugsense.prototype.send_cached_report_if_any)).toBe('function');
+    expect(typeof(Bugsense.prototype.sendCachedReport)).toBe('function');
     expect(typeof(Bugsense.prototype.successHandler)).toBe('function');
     expect(typeof(Bugsense.prototype.testException)).toBe('function');
   });
 })
-describe('Bugsense configuration', function () {
+describe('Bugsense::Configuration', function () {
   it('should have correct default attributes',function () {
-    expect(Bugsense.prototype.config.url).toBe("https://www.bugsense.com/api/errors");
+    expect(Bugsense.prototype.config.url).toBe('https://www.bugsense.com/api/errors');
     expect(Bugsense.prototype.config.apiKey).toBe('FOOBAR');
-    expect(Bugsense.prototype.config.apiKey).toBe('FOOBAR');
-    expect(Bugsense.prototype.config.pingUrl).toBe('http://ticks2.bugsense.com/api/ticks');
     expect(Bugsense.prototype.config.winjs).toBeFalsy();
-    expect(Bugsense.prototype.config.winjs).toBeFalsy();
-    expect(Bugsense.prototype.config.message).toBeNull();
-    expect(Bugsense.prototype.config.callback).toBeNull();
-    expect(Bugsense.prototype.config.appversion).toBeNull();
   });
   it("should change correctly an attribute", function(){
-    window.bugsense = new Bugsense({apiKey: "8a581d8a"});
+    window.bugsense = new Bugsense({
+      apiKey: "8a581d8a",
+      appname: 'theApp',
+      appver: '1.1.1'
+    });
     expect(Bugsense.prototype.config.apiKey).not.toBe('FOOBAR');
     expect(bugsense.config.apiKey).toBe("8a581d8a");
+  });
+});
+describe('Bugsense::Unique ID', function() {
+  it("should have a retain a saved uid", function(){
+    // write expectations
+    expect(bugsense.config.uid).toBe('this-is-a-uid');
+  });
+
+  it("should generate a correct uid", function(){
+    // write expectations
+    localStorage.clear();
+    expect(bugsense.generateUid()).toMatch(new RegExp(/\w+\-|\w+/));
+    expect(localStorage.getItem('bugsense_uid')).toMatch(new RegExp(/\+\-|\w+/));
+  });
+});
+describe('Bugsense::Data fixture', function () {
+  it("should have correct data fixture", function(){
+    expect(bugsense.dataFixture.client.name).toBe("bugsense-js");
+    expect(bugsense.dataFixture.client.version).toBe("2.0");
+    expect(bugsense.dataFixture.application_environment.appname).toBe("theApp");
+    expect(bugsense.dataFixture.application_environment.appver).toBe("1.1.1");
+    expect(bugsense.dataFixture.application_environment.osver).toBe("Intel Mac OS X");
+    expect(bugsense.dataFixture.application_environment.cordova).toBe("unknown");
+    expect(bugsense.dataFixture.application_environment.device_name).toBe("unknown");
+    expect(bugsense.dataFixture.application_environment.phone).toBe("MacIntel");
+    expect(Object.keys(bugsense.dataFixture.application_environment.log_data).length).toEqual(0);
   });
 });
 
@@ -97,6 +123,57 @@ describe("Bugsense::Breadcrumbs", function(){
   });
 });
 
+describe('Bugsense::Send Data', function () {
+  beforeEach(function(){
+    server = sinon.fakeServer.create();
+  });
+  afterEach(function(){
+    server.restore();
+  });
+  it("should successfully to a request", function(){
+    bugsense.send({name: 'Test Name', apiKey: bugsense.config.apiKey}, 'POST');
+    expect(server.requests[0].requestHeaders['Content-Type']).toBe('application/x-www-form-urlencoded;charset=utf-8');
+    expect(server.requests[0].method).toBe('POST');
+    server.requests[0].respond(
+        200,
+        { "Content-Type": "application/json" },
+        'OK');
+    bugsense.send({name: 'Test Name', apiKey: bugsense.config.apiKey}, 'DELETE');
+    expect(server.requests[1].method).toBe('DELETE');
+    server.requests[1].respond(
+        200,
+        { "Content-Type": "application/json" },
+        'OK');
+  });
+});
+
+describe('Bugsense::Event Listeners', function () {
+  it("should add an event with `on` function", function(){
+    bugsense.on('crashed', function(){ window.CRASHED = 1; });
+    bugsense.trigger('crashed');
+    expect(bugsense._events).toBeDefined();
+    expect(bugsense._events.crashed).toBeDefined();
+    expect(bugsense._events.crashed.length).toEqual(1);
+    expect(window.CRASHED).toEqual(1);
+  });
+  it("should add an event with `once` function", function(){
+    bugsense.once('crashed:once', function() { window.CRASHED +=1; })
+    expect(bugsense._events).toBeDefined();
+    expect(bugsense._events['crashed:once']).toBeDefined();
+    expect(bugsense._events['crashed:once'].length).toEqual(1);
+    bugsense.trigger('crashed:once');
+    expect(window.CRASHED).toEqual(2);
+    bugsense.trigger('crashed');
+    expect(window.CRASHED).toEqual(1);
+  });
+  it("should remove an event with `off` function", function(){
+    bugsense.off('crashed');
+    bugsense.trigger('crashed');
+    expect(bugsense._events.crashed).toBeUndefined();
+    expect(window.CRASHED).toEqual(1);
+  });
+});
+
 describe("Bugsense::Parsing Error", function(){
   it("parse an error correctly", function(){
     var error = {
@@ -112,5 +189,101 @@ describe("Bugsense::Parsing Error", function(){
       expect(parsedError.message).toBe('a is not a variable');
     else
       expect(parsedError.message).toBe('Error: a is not a variable');
+  });
+});
+
+describe("Busense::Generate Exception Data", function(){
+  //it should do sth
+  beforeEach(function () {
+    data = bugsense.generateExceptionData('ReferenceError: b is not defined', 'http://localhost:7000/playground/example.js', 8, undefined, undefined)
+  });
+  it("should generate a valid crash fixture (client)", function () {
+    expect(Object.keys(data.client).length).toEqual(2);
+    expect(data.client.name).toBe('bugsense-js');
+    expect(data.client.version).toBe('2.0');
+  });
+  it("should generate a valid crash fixture (exception)", function () {
+    expect(Object.keys(data.exception).length).toEqual(5);
+    expect(data.request.custom_data.length).toEqual(0);
+    expect(data.exception.message).toBe('b is not defined');
+    expect(data.exception.klass).toBe('example');
+    expect(data.exception.where).toBe('http://localhost:7000/playground/example.js:8');
+    expect(data.exception.backtrace.length).toEqual(11);
+    expect(data.exception.breadcrumbs.length).toEqual(1);
+  });
+  it("should generate a valid crash fixture (app environment)", function () {
+    expect(data.exception.breadcrumbs[0]).toBe('after_clearing');
+    expect(Object.keys(data.application_environment).length).toEqual(8);
+    expect(data.application_environment.phone).toBe('MacIntel');
+    expect(data.application_environment.appver).toBe('1.1.1');
+    expect(data.application_environment.osver).toBe('Intel Mac OS X');
+    expect(data.application_environment.appname).toBe('theApp');
+    expect(data.application_environment.user_agent).toBe('PhantomJS 1.9.2')
+    expect(data.application_environment.cordova).toBe('unknown');
+    expect(data.application_environment.device_name).toBe('unknown');
+    expect(Object.keys(data.application_environment.log_data).length).toEqual(0);
+  });
+  it("should generate a valid backtrace", function(){
+    // write expectations
+    expect(data.exception.backtrace.length).toEqual(11);
+    expect(data.exception.backtrace[5]).toBe('  var a = b + 3;');
+  });
+  it("should get the offending line", function () {
+    bugsense.getOffendingLine(data.exception.backtrace, 8);
+  });
+});
+
+describe("Bugsense::Notify server", function(){
+});
+
+describe("Bugsense::Cache failed reports", function(){
+  it("should cache a failed report", function(){
+    expect(bugsense.queue.length).toEqual(0);
+    bugsense.cacheReport({"client":{"name":"bugsense-js","version":"1.1"},"request":{},"exception":{"message":"message","where":":","klass":"message","backtrace":"message","breadcrumbs":["after_clearing"]},"application_environment":{"phone":"MacIntel","appver":"unknown","appname":"unknown","osver":"Intel Mac OS X 10.8","connection_type":"unknown","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:25.0) Gecko/20100101 Firefox/25.0","cordova":"unknown","device_name":"unknown","log_data":{}}});
+    expect(bugsense.queue.length).toEqual(1);
+  });
+  it("should save the cached report in the localStorage", function(){
+    expect(localStorage.getItem('bugsense_cache')).toBe('[{"client":{"name":"bugsense-js","version":"1.1"},"request":{},"exception":{"message":"message","where":":","klass":"message","backtrace":"message","breadcrumbs":["after_clearing"]},"application_environment":{"phone":"MacIntel","appver":"unknown","appname":"unknown","osver":"Intel Mac OS X 10.8","connection_type":"unknown","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:25.0) Gecko/20100101 Firefox/25.0","cordova":"unknown","device_name":"unknown","log_data":{}}}]');
+  });
+  it("should update cache when an additional report is getting cached", function(){
+    bugsense.cacheReport({"client":{"name":"bugsense-js","version":"1.1"},"request":{},"exception":{"message":"message","where":":","klass":"message","backtrace":"message","breadcrumbs":["after_clearing"]},"application_environment":{"phone":"MacIntel","appver":"unknown","appname":"unknown","osver":"Intel Mac OS X 10.8","connection_type":"unknown","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:25.0) Gecko/20100101 Firefox/25.0","cordova":"unknown","device_name":"unknown","log_data":{}}});
+    expect(bugsense.queue.length).toEqual(2);
+    expect(localStorage.getItem('bugsense_cache')).toBe('[{"client":{"name":"bugsense-js","version":"1.1"},"request":{},"exception":{"message":"message","where":":","klass":"message","backtrace":"message","breadcrumbs":["after_clearing"]},"application_environment":{"phone":"MacIntel","appver":"unknown","appname":"unknown","osver":"Intel Mac OS X 10.8","connection_type":"unknown","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:25.0) Gecko/20100101 Firefox/25.0","cordova":"unknown","device_name":"unknown","log_data":{}}},{"client":{"name":"bugsense-js","version":"1.1"},"request":{},"exception":{"message":"message","where":":","klass":"message","backtrace":"message","breadcrumbs":["after_clearing"]},"application_environment":{"phone":"MacIntel","appver":"unknown","appname":"unknown","osver":"Intel Mac OS X 10.8","connection_type":"unknown","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:25.0) Gecko/20100101 Firefox/25.0","cordova":"unknown","device_name":"unknown","log_data":{}}}]');
+  });
+});
+
+describe("Bugsense::Error Hash", function(){
+  beforeEach(function () {
+    hash = bugsense.computeErrorHash('var a = b;', 'b is not defined', 8, 'example', '1.2.3');
+  });
+  it("should generate a 32-digit md5 errorHash", function(){
+    var hash = bugsense.computeErrorHash('var a = b;', 'b is not defined', 8, 'example', '1.2.3');
+    expect(hash.length).toEqual(32);
+  });
+  it("should be random", function(){
+    // ensures random generation is not stupid as duck [sic]
+    expect(hash.indexOf('0123456789abcdefABCDEF')).toEqual(-1);
+  });
+  it("should be valid hexadecimal", function(){
+    expect(hash).toMatch(/[0-9a-f]{32}/);
+  });
+  it("should change when the errorHash changes", function(){
+    var new_hash = bugsense.computeErrorHash('var a = c;', 'c is undefined', 8, 'example', '1.2.3');
+    expect(new_hash).not.toBe(hash);
+  });
+
+});
+
+describe("Bugsense::Extendability", function(){
+  it("should be extendable", function(){
+    // write expectations
+    extend(Bugsense.prototype, {
+      generateExceptionData: function () {
+        window.LALALA = true;
+      }
+    });
+    window.bugsense = new Bugsense({apiKey: "8a581d8a"});
+    bugsense.generateExceptionData();
+    expect(window.LALALA).toBeTruthy();
   });
 });
