@@ -59,10 +59,10 @@ describe('Bugsense::Data fixture', function () {
     expect(bugsense.dataFixture.client.version).toBe("2.0");
     expect(bugsense.dataFixture.application_environment.appname).toBe("theApp");
     expect(bugsense.dataFixture.application_environment.appver).toBe("1.1.1");
-    expect(bugsense.dataFixture.application_environment.osver).toBe("Intel Mac OS X");
+    expect(bugsense.dataFixture.application_environment.osver).toMatch(/Intel Mac OS X|Linux x86_64/);
     expect(bugsense.dataFixture.application_environment.cordova).toBe("unknown");
     expect(bugsense.dataFixture.application_environment.device_name).toBe("unknown");
-    expect(bugsense.dataFixture.application_environment.phone).toBe("MacIntel");
+    expect(bugsense.dataFixture.application_environment.phone).toMatch(/MacIntel|Linux x86_64/);
     expect(Object.keys(bugsense.dataFixture.application_environment.log_data).length).toEqual(0);
   });
 });
@@ -214,11 +214,11 @@ describe("Busense::Generate Exception Data", function(){
   it("should generate a valid crash fixture (app environment)", function () {
     expect(data.exception.breadcrumbs[0]).toBe('after_clearing');
     expect(Object.keys(data.application_environment).length).toEqual(8);
-    expect(data.application_environment.phone).toBe('MacIntel');
+    expect(data.application_environment.phone).toMatch(/MacIntel|Linux x86_64/);
     expect(data.application_environment.appver).toBe('1.1.1');
-    expect(data.application_environment.osver).toBe('Intel Mac OS X');
+    expect(data.application_environment.osver).toMatch(/Intel Mac OS X|Linux x86_64/);
     expect(data.application_environment.appname).toBe('theApp');
-    expect(data.application_environment.user_agent).toBe('PhantomJS 1.9.2')
+    expect(data.application_environment.user_agent).toMatch(/Firefox|Chrome|PhantomJS 1.9.2/)
     expect(data.application_environment.cordova).toBe('unknown');
     expect(data.application_environment.device_name).toBe('unknown');
     expect(Object.keys(data.application_environment.log_data).length).toEqual(0);

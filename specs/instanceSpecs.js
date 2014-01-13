@@ -59,10 +59,10 @@ describe('Bugsense::Data fixture', function () {
     expect(bugsense.dataFixture.client.version).toBe("2.0");
     expect(bugsense.dataFixture.application_environment.appname).toBe("theApp");
     expect(bugsense.dataFixture.application_environment.appver).toBe("1.1.1");
-    expect(bugsense.dataFixture.application_environment.osver).toBe("Intel Mac OS X");
+    expect(bugsense.dataFixture.application_environment.osver).toMatch(/Intel Mac OS X|Linux x86_64/);
     expect(bugsense.dataFixture.application_environment.cordova).toBe("unknown");
     expect(bugsense.dataFixture.application_environment.device_name).toBe("unknown");
-    expect(bugsense.dataFixture.application_environment.phone).toBe("MacIntel");
+    expect(bugsense.dataFixture.application_environment.phone).toMatch(/MacIntel|Linux x86_64/);
     expect(Object.keys(bugsense.dataFixture.application_environment.log_data).length).toEqual(0);
   });
 });
