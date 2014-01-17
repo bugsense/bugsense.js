@@ -11,6 +11,7 @@ describe("Busense::Generate Exception Data", function(){
   it("should generate a valid crash fixture (exception)", function () {
     expect(Object.keys(data.exception).length).toEqual(5);
     expect(data.request.custom_data.length).toEqual(0);
+    expect(data.request.user_id).toBe('tsironis');
     expect(data.exception.message).toBe('b is not defined');
     expect(data.exception.klass).toBe('example');
     expect(data.exception.where).toBe('http://localhost:7000/playground/example.js:8');

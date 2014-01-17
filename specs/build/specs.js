@@ -34,7 +34,8 @@ describe('Bugsense::Configuration', function () {
     window.bugsense = new Bugsense({
       apiKey: "8a581d8a",
       appname: 'theApp',
-      appver: '1.1.1'
+      appver: '1.1.1',
+      userIdentifier: 'tsironis'
     });
     expect(Bugsense.prototype.config.apiKey).not.toBe('FOOBAR');
     expect(bugsense.config.apiKey).toBe("8a581d8a");
@@ -57,6 +58,7 @@ describe('Bugsense::Data fixture', function () {
   it("should have correct data fixture", function(){
     expect(bugsense.dataFixture.client.name).toBe("bugsense-js");
     expect(bugsense.dataFixture.client.version).toBe("2.0");
+    expect(bugsense.dataFixture.request.user_id).toBe("tsironis");
     expect(bugsense.dataFixture.application_environment.appname).toBe("theApp");
     expect(bugsense.dataFixture.application_environment.appver).toBe("1.1.1");
     expect(bugsense.dataFixture.application_environment.osver).toMatch(/Intel Mac OS X|Linux x86_64/);
@@ -205,6 +207,7 @@ describe("Busense::Generate Exception Data", function(){
   it("should generate a valid crash fixture (exception)", function () {
     expect(Object.keys(data.exception).length).toEqual(5);
     expect(data.request.custom_data.length).toEqual(0);
+    expect(data.request.user_id).toBe('tsironis');
     expect(data.exception.message).toBe('b is not defined');
     expect(data.exception.klass).toBe('example');
     expect(data.exception.where).toBe('http://localhost:7000/playground/example.js:8');

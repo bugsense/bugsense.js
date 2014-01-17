@@ -1497,6 +1497,7 @@ extend(Bugsense.prototype, {
         'version' : '2.0'
       },
       request: {
+        'user_id': ( this.config.userIdentifier || 'unknown' ),
         'custom_data' : []
       },
       exception: {
