@@ -4,7 +4,6 @@
 
   <title>Splunksense Playground</title>
   <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
-  <script src="example.js" type="text/javascript" charset="utf-8"></script>
   <script src="lib/alertify.js" type="text/javascript" charset="utf-8"></script>
   <script src="require.js" type="text/javascript" charset="utf-8"></script>
   <link rel="stylesheet" href="themes/alertify.core.css" type="text/css" />
@@ -15,8 +14,14 @@
       bugsense.addExtraData('user_role', 'CEO');
       bugsense.leaveBreadcrumb('loggedin');
       bugsense.on('crash', function(){alertify.error('Oops! Seems that something went wrong! <br /> Drop an email at hi@example.com.')});
+      setTimeout(function () {
+        example();
+      },1500);
+
+      moo;
     });
   </script>
+  <script src="example.js" type="text/javascript" charset="utf-8"></script>
   <style type="text/css" media="all">
   h1, p {
     font-family: 'Open Sans', sans-serif;

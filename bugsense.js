@@ -1331,8 +1331,8 @@ if (md5('hello') != '5d41402abc4b2a76b9719d911017c592') {
       }
       var crash = {};
       var msg = message.split(': ');
-      var klass = TraceKit.computeStackTrace.guessFunctionName(url, line)
-      var stacktrace = TraceKit.computeStackTrace.gatherContext(url, line)
+      var klass = TraceKit.computeStackTrace.guessFunctionName(url, line) || "unknown";
+      var stacktrace = TraceKit.computeStackTrace.gatherContext(url, line);
       // var errorHash = this.computeErrorHash(this.getOffendingLine(stacktrace, line), msg[1], line, klass, this.dataFixture.appVersion)
       extend(crash, this.dataFixture, {
         'exception': {
