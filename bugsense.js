@@ -4,11 +4,7 @@
   * MIT License | (c) Dustin Diaz 2013
   */
 
-!function (name, definition) {
-  if (typeof define == 'function') define(definition)
-  else if (typeof module != 'undefined' && module.exports) module.exports['browser'] = definition()
-  else this[name] = definition()
-}('bowser', function () {
+(function () {
   /**
     * navigator.userAgent =>
     * Chrome:  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_7) AppleWebKit/534.24 (KHTML, like Gecko) Chrome/11.0.696.57 Safari/534.24"
@@ -121,7 +117,7 @@
     return {}
   }
 
-  var bowser = detect()
+  this.bowser = detect()
 
   // Graded Browser Support
   // http://developer.yahoo.com/yui/articles/gbs
@@ -141,8 +137,7 @@
     bowser.c = t
   } else bowser.x = t
 
-  return bowser
-});
+}).call(this);
 
 "use strict";
 /*
@@ -887,18 +882,8 @@ TraceKit.computeStackTrace = (function computeStackTraceWrapper() {
     return computeStackTrace;
 }());
 
-(function(root, factory) {
-
-  if (typeof define === 'function' && define.amd) {
-    define(['exports'], function(exports) {
-      root.Lockr = factory(root, exports);
-    });
-  } else {
-    root.Lockr = factory(root, {});
-  }
-
-}(this, function(root, Lockr) {
-  root.Lockr = Lockr;
+(function() {
+  this.Lockr = {};
 
   Lockr.set = function (key, value) {
     localStorage.setItem(key, value);
@@ -929,7 +914,7 @@ TraceKit.computeStackTrace = (function computeStackTraceWrapper() {
   };
   return Lockr;
 
-}));
+}).call(this);
 
 var md5cycle = function(x, k) {
   var a = x[0], b = x[1], c = x[2], d = x[3];
@@ -1094,26 +1079,12 @@ if (md5('hello') != '5d41402abc4b2a76b9719d911017c592') {
   }
 }
 
-var bugsense;
-(function ( root, factory ) {
-    if ( typeof define === 'function' && define.amd ) {
-        // AMD. Register as an anonymous module.
-        define(function () {
-            // Also create a global in case some scripts
-            // that are loaded still are looking for
-            // a global even when an AMD loader is in use.
-            return ( root.Bugsense = factory() );
-        });
-    } else {
-        // Browser globals
-        root.Bugsense = factory();
-    }
-}( this, function () {
+(function () {
   /**
    * Constructor for the Bugsense instance
    * @param {Object} config Overrides for the default config, use to specify api key
    */
-  var Bugsense = function ( config ) {
+  this.Bugsense = function ( config ) {
     extend(this.config, config);
     this.config.uid  = this.generateUid();
     this.dataFixture = this.generateDataFixture();
@@ -1486,7 +1457,7 @@ var bugsense;
     }
   }
   return Bugsense;
-}));
+}).call(this);
 
 extend(Bugsense.prototype, {
   generateDataFixture: function () {

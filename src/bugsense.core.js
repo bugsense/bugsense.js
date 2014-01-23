@@ -1,23 +1,9 @@
-var bugsense;
-(function ( root, factory ) {
-    if ( typeof define === 'function' && define.amd ) {
-        // AMD. Register as an anonymous module.
-        define(function () {
-            // Also create a global in case some scripts
-            // that are loaded still are looking for
-            // a global even when an AMD loader is in use.
-            return ( root.Bugsense = factory() );
-        });
-    } else {
-        // Browser globals
-        root.Bugsense = factory();
-    }
-}( this, function () {
+(function () {
   /**
    * Constructor for the Bugsense instance
    * @param {Object} config Overrides for the default config, use to specify api key
    */
-  var Bugsense = function ( config ) {
+  this.Bugsense = function ( config ) {
     extend(this.config, config);
     this.config.uid  = this.generateUid();
     this.dataFixture = this.generateDataFixture();
@@ -390,4 +376,4 @@ var bugsense;
     }
   }
   return Bugsense;
-}));
+}).call(this);

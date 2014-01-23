@@ -1,15 +1,5 @@
-(function(root, factory) {
-
-  if (typeof define === 'function' && define.amd) {
-    define(['exports'], function(exports) {
-      root.Lockr = factory(root, exports);
-    });
-  } else {
-    root.Lockr = factory(root, {});
-  }
-
-}(this, function(root, Lockr) {
-  root.Lockr = Lockr;
+(function() {
+  this.Lockr = {};
 
   Lockr.set = function (key, value) {
     localStorage.setItem(key, value);
@@ -40,4 +30,4 @@
   };
   return Lockr;
 
-}));
+}).call(this);
