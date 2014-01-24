@@ -21,6 +21,7 @@
   Bugsense.prototype = {
     // Default config
     config: {
+      VERSION: '2.0.1',
       apiKey: 'FOOBAR',
       message: null,
       userIdentifier: null,
@@ -268,6 +269,9 @@
           'breadcrumbs': this.breadcrumbs
         }
       });
+      if(this.config.userIdentifier) {
+        crash.request.user_id = this.config.userIdentifier;
+      }
       return crash;
     },
 

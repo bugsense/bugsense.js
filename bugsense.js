@@ -1102,6 +1102,7 @@ if (md5('hello') != '5d41402abc4b2a76b9719d911017c592') {
   Bugsense.prototype = {
     // Default config
     config: {
+      VERSION: '2.0.1',
       apiKey: 'FOOBAR',
       message: null,
       userIdentifier: null,
@@ -1349,6 +1350,9 @@ if (md5('hello') != '5d41402abc4b2a76b9719d911017c592') {
           'breadcrumbs': this.breadcrumbs
         }
       });
+      if(this.config.userIdentifier) {
+        crash.request.user_id = this.config.userIdentifier;
+      }
       return crash;
     },
 
@@ -1471,10 +1475,9 @@ extend(Bugsense.prototype, {
     return {
       client: {
         'name' : 'bugsense-js',
-        'version' : '2.0.1'
+        'version' : ( this.config.VERSION || 'unknown' )
       },
       request: {
-        'user_id': ( this.config.userIdentifier || 'unknown' ),
         'custom_data' : [],
         'handled': 0
       },

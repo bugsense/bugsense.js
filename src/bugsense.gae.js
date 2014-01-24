@@ -4,10 +4,9 @@ extend(Bugsense.prototype, {
     return {
       client: {
         'name' : 'bugsense-js',
-        'version' : '2.0.1'
+        'version' : ( this.config.VERSION || 'unknown' )
       },
       request: {
-        'user_id': ( this.config.userIdentifier || 'unknown' ),
         'custom_data' : [],
         'handled': 0
       },
