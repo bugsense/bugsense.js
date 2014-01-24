@@ -4,18 +4,19 @@ extend(Bugsense.prototype, {
     return {
       client: {
         'name' : 'bugsense-js',
-        'version' : '2.0'
+        'version' : '2.0.1'
       },
       request: {
         'user_id': ( this.config.userIdentifier || 'unknown' ),
-        'custom_data' : []
+        'custom_data' : [],
+        'handled': 0
       },
       exception: {
         'message' : null,
         'where' : null,
         'klass' : null,
         'backtrace' : null,
-        'breadcrumbs': null
+        'breadcrumbs': null,
       },
       application_environment: {
         'phone' : window.navigator.platform,

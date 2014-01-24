@@ -57,7 +57,7 @@ describe('Bugsense::Unique ID', function() {
 describe('Bugsense::Data fixture', function () {
   it("should have correct data fixture", function(){
     expect(bugsense.dataFixture.client.name).toBe("bugsense-js");
-    expect(bugsense.dataFixture.client.version).toBe("2.0");
+    expect(bugsense.dataFixture.client.version).toBe("2.0.1");
     expect(bugsense.dataFixture.request.user_id).toBe("tsironis");
     expect(bugsense.dataFixture.application_environment.appname).toBe("theApp");
     expect(bugsense.dataFixture.application_environment.appver).toBe("1.1.1");
@@ -197,16 +197,19 @@ describe("Bugsense::Parsing Error", function(){
 describe("Busense::Generate Exception Data", function(){
   //it should do sth
   beforeEach(function () {
-    data = bugsense.generateExceptionData('ReferenceError: b is not defined', 'http://localhost:7000/playground/example.js', 8, undefined, undefined)
+    data = bugsense.generateExceptionData('ReferenceError: b is not defined', 'http://localhost:7000/playground/example.js', 8, undefined, [], false)
   });
   it("should generate a valid crash fixture (client)", function () {
     expect(Object.keys(data.client).length).toEqual(2);
     expect(data.client.name).toBe('bugsense-js');
-    expect(data.client.version).toBe('2.0');
+    expect(data.client.version).toBe('2.0.1');
   });
   it("should generate a valid crash fixture (exception)", function () {
     expect(Object.keys(data.exception).length).toEqual(5);
-    expect(data.request.custom_data.length).toEqual(0);
+    expect(Object.keys(data.request).length).toEqual(3);
+    expect(data.request.custom_data).toEqual([]);
+    expect(Object.keys(data.request.custom_data).length).toEqual(0);
+    expect(data.request.handled).toEqual(0);
     expect(data.request.user_id).toBe('tsironis');
     expect(data.exception.message).toBe('b is not defined');
     expect(data.exception.klass).toBe('example');
@@ -229,7 +232,7 @@ describe("Busense::Generate Exception Data", function(){
   it("should generate a valid backtrace", function(){
     // write expectations
     expect(data.exception.backtrace.length).toEqual(11);
-    expect(data.exception.backtrace[5]).toBe('  var a = b + 3;');
+    expect(data.exception.backtrace[5]).toBe('  try {');
   });
   it("should get the offending line", function () {
     bugsense.getOffendingLine(data.exception.backtrace, 8);

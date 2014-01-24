@@ -57,7 +57,7 @@ describe('Bugsense::Unique ID', function() {
 describe('Bugsense::Data fixture', function () {
   it("should have correct data fixture", function(){
     expect(bugsense.dataFixture.client.name).toBe("bugsense-js");
-    expect(bugsense.dataFixture.client.version).toBe("2.0");
+    expect(bugsense.dataFixture.client.version).toBe("2.0.1");
     expect(bugsense.dataFixture.request.user_id).toBe("tsironis");
     expect(bugsense.dataFixture.application_environment.appname).toBe("theApp");
     expect(bugsense.dataFixture.application_environment.appver).toBe("1.1.1");

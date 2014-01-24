@@ -1325,16 +1325,22 @@ if (md5('hello') != '5d41402abc4b2a76b9719d911017c592') {
      * @param  {Object} custom_Data An object containing extra debugging data
      * @return {Object}           Bugsense API-compliant exception object
      */
-    generateExceptionData: function( message, url, line, stack, custom_data ) {
+    generateExceptionData: function( message, url, line, stack, custom_data, handled ) {
       if ( typeof( message ) != "string" ) {
         message = message.toString()
       }
+      handled = handled ? 1 : 0;
       var crash = {};
       var msg = message.split(': ');
       var klass = TraceKit.computeStackTrace.guessFunctionName(url, line) || "unknown";
       var stacktrace = TraceKit.computeStackTrace.gatherContext(url, line);
       // var errorHash = this.computeErrorHash(this.getOffendingLine(stacktrace, line), msg[1], line, klass, this.dataFixture.appVersion)
       extend(crash, this.dataFixture, {
+        'request': {
+          'user_id': ( this.config.userIdentifier || 'unknown' ),
+          'custom_data': custom_data,
+          'handled': handled,
+        },
         'exception': {
           'message'    : msg[1],
           'where'      : [ url, line ].join( ':' ),
@@ -1370,10 +1376,11 @@ if (md5('hello') != '5d41402abc4b2a76b9719d911017c592') {
      * @param  {String} line        The line number
      * @param  {Object} custom_data Custom data to send over to Bugsense
      */
-    notify: function(exception, url, line, column, custom_data) {
+    notify: function(exception, url, line, column, custom_data, handled) {
       // Handle cases where only Error object and custom data are sent - url will be the custom_data
       if (typeof(column) === 'object') custom_data = column;
       if (typeof(url) === 'object' && this.testException(exception)){custom_data = url; url = undefined;}
+      if (typeof(handled) === 'undefined') handled = true;
 
       var message, stack;
       // If the exception is the full Error object, extract what we want from it
@@ -1384,14 +1391,13 @@ if (md5('hello') != '5d41402abc4b2a76b9719d911017c592') {
         url = parsedError.url;
         line = parsedError.line;
         stack = parsedError.stack;
-        if (typeof (parsedError.handled) !== 'undefined') {
-            if (typeof (custom_data) !== 'object') custom_data = {};
-            custom_data.handled = 0;
-        }
       } else {
           message = exception;
       }
-      this.send(this.generateExceptionData(message, url, line, stack, custom_data), 'POST');
+      console.log(custom_data)
+      custom_data = custom_data || [];
+      console.log(custom_data)
+      this.send(this.generateExceptionData(message, url, line, stack, custom_data, handled), 'POST');
       return true;
     },
     send: function(data, method) {
@@ -1447,7 +1453,7 @@ if (md5('hello') != '5d41402abc4b2a76b9719d911017c592') {
       if (window.bugsense.isBugsenseException(exception))
         return false;
       bugsense.trigger('crash');
-      return window.bugsense.notify(exception, url, line, column, custom_data);
+      return window.bugsense.notify(exception, url, line, column, custom_data, false);
     },
     onpromiseerror: function(event) {
       // Ignore bugsense raised exception
@@ -1465,18 +1471,19 @@ extend(Bugsense.prototype, {
     return {
       client: {
         'name' : 'bugsense-js',
-        'version' : '2.0'
+        'version' : '2.0.1'
       },
       request: {
         'user_id': ( this.config.userIdentifier || 'unknown' ),
-        'custom_data' : []
+        'custom_data' : [],
+        'handled': 0
       },
       exception: {
         'message' : null,
         'where' : null,
         'klass' : null,
         'backtrace' : null,
-        'breadcrumbs': null
+        'breadcrumbs': null,
       },
       application_environment: {
         'phone' : window.navigator.platform,
