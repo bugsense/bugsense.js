@@ -75,11 +75,17 @@ module.exports = function(grunt) {
     },
     uglify: {
       options: {
+        sourceMap: true,
         mangle: false
       },
       bugsense: {
         files: {
           'bugsense.min.js': ['bugsense.js']
+        }
+      },
+      example: {
+        files: {
+          'playground/example.min.js': ['playground/example.js']
         }
       }
     },
