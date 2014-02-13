@@ -1941,9 +1941,15 @@ Bugsense.Errors = (function () {
     if(error.custom_data) crash.application_environment.log_data = error.custom_data;
     return crash;
   };
-
+  
+  var generateStackTrace = function(error) {
+   var stack = TraceKit.computeStackTrace(error).stack;
+   return stack.map(function (s) {
+     return s.func+"@"+s.url+":"+s.line;
+   });
+  };
   var getStackTrace = function(error) {
-    return error.stack || TraceKit.computeStackTrace(error);
+    return error.stack || generateStackTrace(error);
   };
 
 

@@ -230,7 +230,7 @@ describe("Busense::Generate Exception Data", function(){
   });
   it("should generate a valid backtrace", function(){
     // write expectations
-    expect(data.exception.backtrace).toEqual(11);
+    expect(data.exception.backtrace.length).toEqual(11);
   });
 });
 
