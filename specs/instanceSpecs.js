@@ -6,55 +6,53 @@ describe('Bugsense::Instance', function  () {
     expect(Bugsense).toBeTruthy();
   });
   it('should contain the correct methods', function () {
-    expect(typeof(Bugsense.prototype.config)).toBe('object');
-    expect(typeof(Bugsense.prototype.addExtraData)).toBe('function');
-    expect(typeof(Bugsense.prototype.clearBreadcrumbs)).toBe('function');
-    expect(typeof(Bugsense.prototype.clearExtraData)).toBe('function');
-    expect(typeof(Bugsense.prototype.generateExceptionData)).toBe('function');
-    expect(typeof(Bugsense.prototype.getPostURL)).toBe('function');
-    expect(typeof(Bugsense.prototype.isBugsenseException)).toBe('function');
-    expect(typeof(Bugsense.prototype.leaveBreadcrumb)).toBe('function');
-    expect(typeof(Bugsense.prototype.notify)).toBe('function');
-    expect(typeof(Bugsense.prototype.onerror)).toBe('function');
-    expect(typeof(Bugsense.prototype.onpromiseerror)).toBe('function');
-    expect(typeof(Bugsense.prototype.parseError)).toBe('function');
-    expect(typeof(Bugsense.prototype.removeExtraData)).toBe('function');
-    expect(typeof(Bugsense.prototype.sendCachedReport)).toBe('function');
-    expect(typeof(Bugsense.prototype.successHandler)).toBe('function');
-    expect(typeof(Bugsense.prototype.testException)).toBe('function');
+    expect(typeof(Bugsense.config)).toBe('object');
+    expect(typeof(Bugsense.addExtraData)).toBe('function');
+    expect(typeof(Bugsense.clearBreadcrumbs)).toBe('function');
+    expect(typeof(Bugsense.clearExtraData)).toBe('function');
+    expect(typeof(Bugsense.Network.getPostURL)).toBe('function');
+    expect(typeof(Bugsense.leaveBreadcrumb)).toBe('function');
+    expect(typeof(Bugsense.notify)).toBe('function');
+    expect(typeof(Bugsense.Errors.parse)).toBe('function');
+    expect(typeof(Bugsense.removeExtraData)).toBe('function');
+    expect(typeof(Bugsense.Cache.sendCachedReport)).toBe('function');
+    expect(typeof(Bugsense.Cache.update)).toBe('function');
+    expect(typeof(Bugsense.Cache.cacheReport)).toBe('function');
+    expect(typeof(Bugsense.Cache.retrieve)).toBe('function');
   });
 })
 describe('Bugsense::Configuration', function () {
   it('should have correct default attributes',function () {
-    expect(Bugsense.prototype.config.url).toBe('https://www.bugsense.com/api/errors');
-    expect(Bugsense.prototype.config.apiKey).toBe('FOOBAR');
-    expect(Bugsense.prototype.config.winjs).toBeFalsy();
+    expect(Bugsense.config.url).toBe('https://www.bugsense.com/api/errors');
+    expect(Bugsense.config.apiKey).toBe('FOOBAR');
   });
   it("should change correctly an attribute", function(){
-    window.bugsense = new Bugsense({
+    Bugsense.initAndStartSession({
       apiKey: "8a581d8a",
       appname: 'theApp',
       appver: '1.1.1',
       userIdentifier: 'tsironis'
     });
-    expect(Bugsense.prototype.config.apiKey).not.toBe('FOOBAR');
-    expect(bugsense.config.apiKey).toBe("8a581d8a");
+    expect(Bugsense.config.apiKey).toBe("8a581d8a");
+    expect(Bugsense.config.appname).toBe("theApp");
+    expect(Bugsense.config.appver).toBe("1.1.1");
+    expect(Bugsense.config.userIdentifier).toBe("tsironis");
   });
 });
 describe('Bugsense::Unique ID', function() {
   it("should have a retain a saved uid", function(){
     // write expectations
-    expect(bugsense.config.uid).toBe('this-is-a-uid');
+    expect(Bugsense.config.uid).toBeNull();
   });
 
   it("should generate a correct uid", function(){
     // write expectations
     localStorage.clear();
-    expect(bugsense.generateUid()).toMatch(new RegExp(/\w+\-|\w+/));
-    expect(localStorage.getItem('bugsense_uid')).toMatch(new RegExp(/\+\-|\w+/));
+    expect(Bugsense.Sessions.generateUid()).toMatch(new RegExp(/([a-f0-9\-])+/));
+    expect(localStorage.getItem('bugsense:uid')).toMatch(new RegExp(/([a-f0-9\-])+/));
   });
 });
-describe('Bugsense::Data fixture', function () {
+xdescribe('Bugsense::Data fixture', function () {
   it("should have correct data fixture", function(){
     expect(bugsense.dataFixture.client.name).toBe("bugsense-js");
     expect(bugsense.dataFixture.client.version).toBe("2.0");

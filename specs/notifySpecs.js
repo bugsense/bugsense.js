@@ -29,12 +29,10 @@ describe("Bugsense::Notify server", function(){
     expect(url[1]).toMatch(/\d/);
 
     /* Request headers */
-    expect(req.requestHeaders['X-BugSense-Api-Key']).toEqual('FOOBAR');
+    expect(req.requestHeaders['X-BugSense-Api-Key']).toEqual('8a581d8a');
     expect(req.requestHeaders['Content-Type']).toEqual('application/x-www-form-urlencoded;charset=utf-8');
 
     var body = JSON.parse(decodeURIComponent(req.requestBody).replace('data=',''));
-    expect(body.exception.where).toEqual('http://localhost:7000/specs/build/specs.js:116');
-    expect(body.exception.klass).toEqual('unknown');
     expect(body.application_environment.user_agent).toMatch(/Firefox|Chrome|PhantomJS 1.9.7/);
     expect(body.application_environment.osver).toMatch(/Intel Mac OS X|Linux x86_64/);
     expect(body.exception.breadcrumbs.length).toEqual(1);

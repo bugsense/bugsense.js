@@ -1,34 +1,4 @@
 Bugsense.Errors = (function () {
-  var ua = window.navigator.userAgent;
-  var dataFixture = {
-    client: {
-      'name' : 'bugsense-js',
-      'version' : '2.0'
-    },
-    request: {
-      'user_id': ( Bugsense.config.userIdentifier || 'unknown' ),
-      'custom_data' : []
-    },
-    exception: {
-      'message' : null,
-      'where' : null,
-      'klass' : null,
-      'backtrace' : null,
-      'breadcrumbs': null
-    },
-    application_environment: {
-      'phone' : window.navigator.platform,
-      'appver' : ( Bugsense.config.appver || 'unknown' ),
-      'appname' : ( Bugsense.config.appname || 'unknown' ),
-      'osver' : ( typeof window.device !== 'undefined' )
-        ? window.device.version
-        : ua.substr(ua.indexOf('; ')+2,ua.length).replace(')',';').split(';')[0] || 'unknown',
-        'user_agent' : bowser.name+" "+bowser.version,
-        'cordova' : ( typeof window.device !== 'undefined' ) ? window.device.cordova : 'unknown',
-        'device_name' : ( typeof window.device !== 'undefined' ) ? window.device.name : 'unknown',
-        'log_data' : {}
-    }
-  };
 
   var getOffendingLine = function(stacktrace, line) {
     return (line < TraceKit.linesOfContext/2
@@ -48,7 +18,7 @@ Bugsense.Errors = (function () {
 
     }
     var parsedError = { // Chrome
-      message: data.exception,
+      message: data.exception || data.message,
       url: data.url || data.lineNumber || data.sourceURL,
       line: data.line,
     };
@@ -62,24 +32,23 @@ Bugsense.Errors = (function () {
   };
 
   var generateExceptionData = function(error) {
-    var message = ( typeof( error ) != "string" ) ? error.toString() : error.message,
-    crash = {},
-    stacktrace = getStackTrace(error),
-    msg = message.split(': '),
-    url = error.url || error.lineNumber || error.sourceUrl,
-    line = error.line;
-    klass = url && line ? TraceKit.computeStackTrace.guessFunctionName(url, line) : "unknown",
+    var message = ( typeof(error) != "string" ) ? error.message : error,
+        crash = {},
+        stacktrace = getStackTrace(error),
+        url = error.url || error.lineNumber || error.sourceUrl,
+        line = error.line,
+        klass = url && line ? TraceKit.computeStackTrace.guessFunctionName(url, line) : "unknown";
     // errorHash = this.computeErrorHash(this.getOffendingLine(stacktrace, line), msg[1], line, klass, this.dataFixture.appVersion)
-    extend(crash, dataFixture, {
+    crash = extend(Bugsense.generateFixture(), {
       'exception': {
-        'message': msg[1],
+        'message': message,
         'where': [ url, line ].join( ':' ),
         'klass': klass,
         'backtrace': stacktrace,
         'breadcrumbs': Bugsense.breadcrumbs
       }
     });
-    if(error.custom_data) crash.request.custom_data.push(error.custom_data);
+    if(error.custom_data) crash.application_environment.log_data = error.custom_data;
     return crash;
   };
 
@@ -117,6 +86,8 @@ Bugsense.Errors = (function () {
   };
 
   return {
-    parse: parse
+    parse: parse,
+    computeErrorHash: computeErrorHash,
+    generateExceptionData: generateExceptionData
   }
 }());
