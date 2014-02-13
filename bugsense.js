@@ -1904,9 +1904,6 @@ Bugsense.Errors = (function () {
   };
 
   var parse = function(data) {
-    if (navigator.userAgent.match(/Firefox/)) {
-
-    }
     var parsedError = { // Chrome
       message: data.exception || data.message,
       url: data.url || data.lineNumber || data.sourceURL,
@@ -1939,6 +1936,7 @@ Bugsense.Errors = (function () {
       }
     });
     if(error.custom_data) crash.application_environment.log_data = error.custom_data;
+
     return crash;
   };
   
@@ -1956,11 +1954,7 @@ Bugsense.Errors = (function () {
   Bugsense.notify = function(data, custom_data) {
     var parsedError = {};
     if(custom_data) data.custom_data = custom_data;
-    if(!testException(data)) {
-      parsedError.message = data;
-    } else {
-      parsedError = parse(data);
-    }
+    parsedError = parse(data);
 
     Bugsense.Network.send(generateExceptionData(parsedError), 'POST');
     return true;
