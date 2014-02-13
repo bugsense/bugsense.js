@@ -28,4 +28,5 @@ Bugsense.Crashes = (function() {
   Bugsense.clearBreadcrumbs = function() {
     Bugsense.breadcrumbs = [];
   };
+  
 }());

@@ -19,7 +19,7 @@ Bugsense.Cache = (function() {
       if(this._queue.length) {
         var that = this;
         each(this._queue, function(data, index) {
-          that.send(data, 'POST');
+          Bugsense.Network.send(data, 'POST');
           that._queue.shift(index);
         });
         this.update();

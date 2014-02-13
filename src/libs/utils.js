@@ -7,6 +7,10 @@
  *
  */
 
+var timestamp = function() {
+  return (new Date()).getTime();
+};
+
 var extend = function(obj) {
   each(slice.call(arguments, 1), function(source) {
     if (source) {
