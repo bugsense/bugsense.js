@@ -7,6 +7,10 @@
  *
  */
 
+var timestamp = function() {
+  return (new Date()).getTime();
+};
+
 var extend = function(obj) {
   each(slice.call(arguments, 1), function(source) {
     if (source) {
@@ -16,7 +20,7 @@ var extend = function(obj) {
     }
   });
   return obj;
-}
+};
 var _has = function(object, key) {
   return Object.prototype.hasOwnProperty.call(object, key);
 }
@@ -103,7 +107,7 @@ var param = function param ( obj, traditional ) {
 };
   // END - Extracted from Zepto
 
-var guid_generator = function GUIDGenerator() {
+var generator = function GUIDGenerator() {
   var S4 = function () {
     return Math.floor(
       Math.random() * 0x10000 /* 65536 */

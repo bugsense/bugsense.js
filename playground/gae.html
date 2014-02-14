@@ -9,13 +9,10 @@
   <link rel="stylesheet" href="themes/alertify.core.css" type="text/css" />
   <link rel="stylesheet" href="themes/alertify.default.css" type="text/css" />
   <script type="text/javascript" charset="utf-8">
-    var bugsense = new Bugsense({apiKey: '8a581d8a', appName: 'theApp', appVersion: '1.1.1', userIdentifier: 'tsironakos'});
-    bugsense.addExtraData('user_role', 'CEO');
-    bugsense.leaveBreadcrumb('loggedin');
-    bugsense.on('crash', function(){alertify.error('Oops! Seems that something went wrong! <br /> Drop an email at hi@example.com.')});
-    setTimeout(function() {
-      example();
-    },1500)
+    Bugsense.initAndStartSession({apiKey: '05ae2b12', appName: 'theApp', appVersion: '1.1.1', userIdentifier: 'tsironakos'});
+    Bugsense.addExtraData('user_role', 'CEO');
+    Bugsense.leaveBreadcrumb('loggedin');
+    Bugsense.on('crash', function(){alertify.error('Oops! Seems that something went wrong! <br /> Drop an email at hi@example.com.')});
   </script>
   <script src="example.min.js" type="text/javascript" charset="utf-8"></script>
   <style type="text/css" media="all">

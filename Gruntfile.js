@@ -44,17 +44,21 @@ module.exports = function(grunt) {
         'specs/generateExceptionDataSpecs.js',
         'specs/notifySpecs.js',
         'specs/cacheSpecs.js',
-        'specs/errorHashSpecs.js',
-        'specs/extendabilitySpecs.js'
+        'specs/errorHashSpecs.js'
       ],
       'bugsense.js': [
         'src/libs/bowser.js',
-        'src/libs/utils.js',
         'src/libs/tracekit.js',
+        'src/libs/utils.js',
         'src/libs/lockr.js',
         'src/libs/md5.js',
         'src/bugsense.core.js',
-        'src/bugsense.gae.js'
+        'src/crashes.js',
+        'src/channel.js',
+        'src/cache.js',
+        'src/errors.js',
+        'src/sessions.js',
+        'src/network.js'
       ]
     },
     connect: {
@@ -69,13 +73,12 @@ module.exports = function(grunt) {
       options: {
         host: 'http://localhost:7000/',
         specs:  'specs/build/specs.js',
-        helpers: 'libs/sinon-1.7.3.js',
+        helpers: 'libs/sinon.js',
         keepRunner: true
       }
     },
     uglify: {
       options: {
-        sourceMap: true,
         mangle: false
       },
       bugsense: {
