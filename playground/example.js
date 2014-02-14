@@ -5,7 +5,7 @@ function example() {
   var a = 1;
   var a = 1;
   var a = 1;
-  var a = b + 3;
+  dontpanic;
   var a = 1;
   var a = 1;
   var a = 1;

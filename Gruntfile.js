@@ -73,7 +73,7 @@ module.exports = function(grunt) {
       options: {
         host: 'http://localhost:7000/',
         specs:  'specs/build/specs.js',
-        helpers: 'libs/sinon-1.7.3.js',
+        helpers: 'libs/sinon.js',
         keepRunner: true
       }
     },
