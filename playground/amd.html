@@ -4,16 +4,17 @@
 
   <title>Splunksense Playground</title>
   <script src="https://raw2.github.com/jrburke/requirejs/master/require.js" type="text/javascript" charset="utf-8"></script>
-  <script src="../lib/bugsense.js" type="text/javascript" charset="utf-8"></script>
   <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
-  <script src="lib/alertify.js" type="text/javascript" charset="utf-8"></script>
-  <link rel="stylesheet" href="themes/alertify.core.css" type="text/css" />
-  <link rel="stylesheet" href="themes/alertify.default.css" type="text/css" />
+  <!-- <script src="lib/alertify.js" type="text/javascript" charset="utf-8"></script> -->
+  <!-- <link rel="stylesheet" href="themes/alertify.core.css" type="text/css" /> -->
+  <!-- <link rel="stylesheet" href="themes/alertify.default.css" type="text/css" /> -->
   <script type="text/javascript" charset="utf-8">
-    Bugsense.initAndStartSession({apiKey: '8a581d8a', appName: 'theApp', appVersion: '1.1.1', userIdentifier: 'tsironakos'});
-    Bugsense.addExtraData('user_role', 'CEO');
-    Bugsense.leaveBreadcrumb('loggedin');
-    Bugsense.on('crash', function(){alertify.error('Oops! Seems that something went wrong! <br /> Drop an email at hi@example.com.')});
+    require(["../lib/amd/bugsense.js"], function(util) {
+      Bugsense.initAndStartSession({apiKey: '8a581d8a', appName: 'theApp', appVersion: '1.1.1', userIdentifier: 'tsironakos'});
+      Bugsense.addExtraData('user_role', 'CEO');
+      Bugsense.leaveBreadcrumb('loggedin');
+      Bugsense.on('crash', function(){alertify.error('Oops! Seems that something went wrong! <br /> Drop an email at hi@example.com.')});
+    });
   </script>
   <script src="example.min.js" type="text/javascript" charset="utf-8"></script>
   <style type="text/css" media="all">

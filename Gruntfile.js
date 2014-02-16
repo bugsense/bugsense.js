@@ -46,7 +46,7 @@ module.exports = function(grunt) {
         'specs/cacheSpecs.js',
         'specs/errorHashSpecs.js'
       ],
-      'bugsense.js': [
+      'lib/bugsense.js': [
         'src/libs/bowser.js',
         'src/libs/tracekit.js',
         'src/libs/utils.js',
@@ -61,6 +61,13 @@ module.exports = function(grunt) {
         'src/network.js'
       ]
     },
+    rig: {
+      amd: {
+        files: {
+          'lib/amd/bugsense.js': ['src/amd.js']
+        }
+      }
+    },
     connect: {
       server: {
         options: {
@@ -69,7 +76,7 @@ module.exports = function(grunt) {
       }
     },
     jasmine: {
-      src: 'bugsense.js',
+      src: 'lib/bugsense.js',
       options: {
         host: 'http://localhost:7000/',
         specs:  'specs/build/specs.js',
@@ -81,9 +88,14 @@ module.exports = function(grunt) {
       options: {
         mangle: false
       },
-      bugsense: {
+      regular: {
         files: {
-          'bugsense.min.js': ['bugsense.js']
+          'lib/bugsense.min.js': ['lib/bugsense.js']
+        }
+      },
+      amd: {
+        files: {
+          'lib/amd/bugsense.min.js': ['lib/amd/bugsense.js']
         }
       },
       example: {
@@ -114,9 +126,10 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-rigger');
 
   // Default task.
-  grunt.registerTask('default', ['concat', 'jshint', 'connect', 'jasmine', 'uglify']);
+  grunt.registerTask('default', ['concat', 'rig', 'jshint', 'connect', 'jasmine', 'uglify']);
   grunt.registerTask('specs', ['concat', 'jshint', 'connect', 'jasmine', 'uglify']);
 
 };
