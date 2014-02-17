@@ -18,6 +18,7 @@ window.Bugsense = (function(){
   };
 
   var initAndStartSession = function(options) {
+    options.uid = Bugsense.Sessions.generateUid();
     config = extend(config, options);
     // starting session
   };

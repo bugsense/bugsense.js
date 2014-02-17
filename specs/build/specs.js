@@ -56,7 +56,7 @@ describe('Bugsense::Configuration', function () {
 describe('Bugsense::Unique ID', function() {
   it("should have a retain a saved uid", function(){
     // write expectations
-    expect(Bugsense.config.uid).toBeNull();
+    expect(Bugsense.config.uid).toMatch(new RegExp(/([a-f0-9\-])+/));
   });
 
   it("should generate a correct uid", function(){
@@ -318,14 +318,14 @@ describe("Bugsense::Error Hash", function(){
 
 describe('Bugsense::Flatline', function() {
   it('should create a valid flatline', function() {
-    var flatline = Bugsense.Sessions.createFlatline().split(':');
+    var flatline = Bugsense.Sessions.createFlatline('_ping').split(':');
     expect(flatline[0]).toEqual('2.0.1');
-    expect(flatline[1]).toEqual('unknown');
+    expect(flatline[1]).toEqual('_ping');
     expect(flatline[2]).toEqual('unknown');
-    expect(flatline[3]).toMatch(/Linux|Intel Mac OS X/);
-    expect(flatline[4]).toEqual('1.1.1');
-    expect(flatline[5]).toEqual('unknown');
-    expect(flatline[6]).toMatch(/[0-9]/);
-    expect(flatline[6]).toMatch(/[0-9]{10}/);
+    expect(flatline[3]).toEqual('unknown');
+    expect(flatline[4]).toMatch(/Linux|Intel Mac OS X/);
+    expect(flatline[5]).toEqual('1.1.1');
+    expect(flatline[6]).toEqual('unknown');
+    expect(flatline[7]).toMatch(/[0-9]{10}/);
   });
 });

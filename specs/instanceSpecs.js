@@ -56,7 +56,7 @@ describe('Bugsense::Configuration', function () {
 describe('Bugsense::Unique ID', function() {
   it("should have a retain a saved uid", function(){
     // write expectations
-    expect(Bugsense.config.uid).toBeNull();
+    expect(Bugsense.config.uid).toMatch(new RegExp(/([a-f0-9\-])+/));
   });
 
   it("should generate a correct uid", function(){

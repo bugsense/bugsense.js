@@ -23,6 +23,7 @@ Bugsense.Sessions = (function () {
     createFlatline: function(type) {
       var data = [];
       data.push(Bugsense.get('VERSION'));
+      data.push(type);
       data.push(Bugsense.get('device'));
       data.push(Bugsense.get('manufacturer'));
       data.push(Bugsense.get('osver'));

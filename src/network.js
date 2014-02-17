@@ -4,6 +4,9 @@ Bugsense.Network = (function() {
     getPostURL: function( type ) {
       return Bugsense.config.url + '?cacheBuster='+timestamp();
     },
+    getTicks: function () {
+      return "https://ticks.bugsense.com/"+Bugsense.get('api_key')+"/"+Bugsense.get('uid');
+    },
     send: function(data, method) {
       // Send the data over to Bugsense
       var net = new XMLHttpRequest();
