@@ -8,7 +8,7 @@
  */
 
 var timestamp = function() {
-  return (new Date()).getTime();
+  return Math.round((new Date()).getTime() /1000);
 };
 
 var extend = function(obj) {

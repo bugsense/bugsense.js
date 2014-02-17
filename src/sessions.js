@@ -19,8 +19,19 @@ Bugsense.Sessions = (function () {
       var uid = Lockr.get('bugsense:uid') || generator();
       Lockr.set('bugsense:uid', uid);
       return uid;
+    },
+    createFlatline: function(type) {
+      var data = [];
+      data.push(Bugsense.get('VERSION'));
+      data.push(Bugsense.get('device'));
+      data.push(Bugsense.get('manufacturer'));
+      data.push(Bugsense.get('osver'));
+      data.push(Bugsense.get('appver'));
+      data.push(Bugsense.get('country'));
+      data.push(timestamp());
+      return data.join(':');
     }
-  }
+  };
 
   return Sessions;
 }());

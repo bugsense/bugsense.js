@@ -38,6 +38,20 @@ describe('Bugsense::Configuration', function () {
     expect(Bugsense.config.appver).toBe("1.1.1");
     expect(Bugsense.config.userIdentifier).toBe("tsironis");
   });
+  describe('Bugsense::Data fixture', function () {
+    it("should have correct data fixture", function(){
+      var dataFixture = Bugsense.generateFixture();
+      expect(dataFixture.client.name).toBe("bugsense-js");
+      expect(dataFixture.client.version).toBe('2.0.1');
+      expect(dataFixture.application_environment.appname).toBe("theApp");
+      expect(dataFixture.application_environment.appver).toBe("1.1.1");
+      expect(dataFixture.application_environment.osver).toMatch(/Intel Mac OS X|Linux x86_64/);
+      expect(dataFixture.application_environment.cordova).toBe("unknown");
+      expect(dataFixture.application_environment.device_name).toBe("unknown");
+      expect(dataFixture.application_environment.phone).toMatch(/MacIntel|Linux x86_64/);
+      expect(Object.keys(dataFixture.application_environment.log_data).length).toEqual(0);
+    });
+  });
 });
 describe('Bugsense::Unique ID', function() {
   it("should have a retain a saved uid", function(){
@@ -52,20 +66,7 @@ describe('Bugsense::Unique ID', function() {
     expect(localStorage.getItem('bugsense:uid')).toMatch(new RegExp(/([a-f0-9\-])+/));
   });
 });
-xdescribe('Bugsense::Data fixture', function () {
-  it("should have correct data fixture", function(){
-    expect(bugsense.config.VERSION).toBe('2.0.1');
-    expect(bugsense.dataFixture.client.name).toBe("bugsense-js");
-    expect(bugsense.dataFixture.client.version).toBe("2.0.1");
-    expect(bugsense.dataFixture.application_environment.appname).toBe("theApp");
-    expect(bugsense.dataFixture.application_environment.appver).toBe("1.1.1");
-    expect(bugsense.dataFixture.application_environment.osver).toMatch(/Intel Mac OS X|Linux x86_64/);
-    expect(bugsense.dataFixture.application_environment.cordova).toBe("unknown");
-    expect(bugsense.dataFixture.application_environment.device_name).toBe("unknown");
-    expect(bugsense.dataFixture.application_environment.phone).toMatch(/MacIntel|Linux x86_64/);
-    expect(Object.keys(bugsense.dataFixture.application_environment.log_data).length).toEqual(0);
-  });
-});
+
 
 describe("Bugsense::ExtraData", function(){
   it("should add some initial extra data", function(){
@@ -181,13 +182,15 @@ describe("Bugsense::Parsing Error", function(){
       "line":102,
       "column": 4,
       "exception": 'a is not a variable',
-      "stack":"@file:///Users/dtsironis@file:///Users/dtsironis/Spl/bugsense.js/.grunt/grunt-contrib-jasmine/jasmine.js:2106\njasmine.Queue.prototype.next_/onComplete/<@file:///Users/dtsironis/Spl/bugsense.js/.grunt/grunt-contrib-jasmine/jasmine.js:2086\n"
+      "stack":"@file:///Users/dtsironis@file:///Users/dtsironis/Spl/bugsense.js/.grunt/grunt-contrib-jasmine/jasmine.js:2106\njasmine.Queue.prototype.next_/onComplete/<@file:///Users/dtsironis/Spl/bugsense.js/.grunt/grunt-contrib-jasmine/jasmine.js:2086\n",
+      "handled": false
     };
     window.parsedError = Bugsense.Errors.parse(error);
     expect(parsedError.message).toBe('a is not a variable');
     expect(parsedError.custom_data).toBeUndefined();
     expect(parsedError.line).toEqual(102);
     expect(parsedError.url).toBe('file:///Users/dtsironis/Spl/bugsense.js/specs/build/specs.js');
+    expect(parsedError.handled).toBeFalsy();
   });
 });
 
@@ -311,4 +314,18 @@ describe("Bugsense::Error Hash", function(){
     expect(new_hash).not.toBe(hash);
   });
 
+});
+
+describe('Bugsense::Flatline', function() {
+  it('should create a valid flatline', function() {
+    var flatline = Bugsense.Sessions.createFlatline().split(':');
+    expect(flatline[0]).toEqual('2.0.1');
+    expect(flatline[1]).toEqual('unknown');
+    expect(flatline[2]).toEqual('unknown');
+    expect(flatline[3]).toMatch(/Linux|Intel Mac OS X/);
+    expect(flatline[4]).toEqual('1.1.1');
+    expect(flatline[5]).toEqual('unknown');
+    expect(flatline[6]).toMatch(/[0-9]/);
+    expect(flatline[6]).toMatch(/[0-9]{10}/);
+  });
 });

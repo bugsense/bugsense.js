@@ -38,6 +38,20 @@ describe('Bugsense::Configuration', function () {
     expect(Bugsense.config.appver).toBe("1.1.1");
     expect(Bugsense.config.userIdentifier).toBe("tsironis");
   });
+  describe('Bugsense::Data fixture', function () {
+    it("should have correct data fixture", function(){
+      var dataFixture = Bugsense.generateFixture();
+      expect(dataFixture.client.name).toBe("bugsense-js");
+      expect(dataFixture.client.version).toBe('2.0.1');
+      expect(dataFixture.application_environment.appname).toBe("theApp");
+      expect(dataFixture.application_environment.appver).toBe("1.1.1");
+      expect(dataFixture.application_environment.osver).toMatch(/Intel Mac OS X|Linux x86_64/);
+      expect(dataFixture.application_environment.cordova).toBe("unknown");
+      expect(dataFixture.application_environment.device_name).toBe("unknown");
+      expect(dataFixture.application_environment.phone).toMatch(/MacIntel|Linux x86_64/);
+      expect(Object.keys(dataFixture.application_environment.log_data).length).toEqual(0);
+    });
+  });
 });
 describe('Bugsense::Unique ID', function() {
   it("should have a retain a saved uid", function(){
@@ -52,17 +66,4 @@ describe('Bugsense::Unique ID', function() {
     expect(localStorage.getItem('bugsense:uid')).toMatch(new RegExp(/([a-f0-9\-])+/));
   });
 });
-xdescribe('Bugsense::Data fixture', function () {
-  it("should have correct data fixture", function(){
-    expect(bugsense.config.VERSION).toBe('2.0.1');
-    expect(bugsense.dataFixture.client.name).toBe("bugsense-js");
-    expect(bugsense.dataFixture.client.version).toBe("2.0.1");
-    expect(bugsense.dataFixture.application_environment.appname).toBe("theApp");
-    expect(bugsense.dataFixture.application_environment.appver).toBe("1.1.1");
-    expect(bugsense.dataFixture.application_environment.osver).toMatch(/Intel Mac OS X|Linux x86_64/);
-    expect(bugsense.dataFixture.application_environment.cordova).toBe("unknown");
-    expect(bugsense.dataFixture.application_environment.device_name).toBe("unknown");
-    expect(bugsense.dataFixture.application_environment.phone).toMatch(/MacIntel|Linux x86_64/);
-    expect(Object.keys(bugsense.dataFixture.application_environment.log_data).length).toEqual(0);
-  });
-});
+
