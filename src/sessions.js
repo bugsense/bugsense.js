@@ -31,6 +31,14 @@ Bugsense.Sessions = (function () {
       data.push(Bugsense.get('country'));
       data.push(timestamp());
       return data.join(':');
+    },
+    ping: function() {
+      var ping = this.createFlatline('_ping');
+      Bugsense.Network.sendEvent(ping);
+    },
+    event: function(type) {
+      var event = this.createFlatline(type);
+      Bugsense.Network.sendEvent(event);
     }
   };
 

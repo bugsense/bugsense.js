@@ -53,7 +53,7 @@ module.exports = function(grunt) {
         'src/libs/utils.js',
         'src/libs/lockr.js',
         'src/libs/md5.js',
-        'src/bugsense.core.js',
+        'src/core.js',
         'src/crashes.js',
         'src/channel.js',
         'src/cache.js',

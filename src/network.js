@@ -1,22 +1,28 @@
 Bugsense.Network = (function() {
 
   var Network = {
-    getPostURL: function( type ) {
+    getCrashURL: function(type) {
       return Bugsense.config.url + '?cacheBuster='+timestamp();
     },
-    getTicks: function () {
-      return "https://ticks.bugsense.com/"+Bugsense.get('api_key')+"/"+Bugsense.get('uid');
+    getTicksURL: function() {
+      return "https://ticks.bugsense.com/"+Bugsense.get('apiKey')+"/"+Bugsense.get('uid');
     },
-    send: function(data, method) {
+    sendCrash: function(data) {
+      this.send(data, 'POST', this.getCrashURL())
+    },
+    sendEvent: function(data) {
+      this.send(data, 'POST', this.getTicksURL())
+    },
+    send: function(data, method, url) {
       // Send the data over to Bugsense
       var net = new XMLHttpRequest();
-      net.open(method, this.getPostURL(), true );
+      net.open(method, url, true );
       net.setRequestHeader('X-BugSense-Api-Key', Bugsense.config.apiKey);
       net.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
       var that = this;
       net.onerror = function (a) {
         /* cache the report */
-        that.cacheReport(data);
+        that.cache(data);
       }
       function successHandler() {
         if (net && net.readyState != 4) { return; }

@@ -1,7 +1,7 @@
 Bugsense.Cache = (function() {
   var Cache = {
     _queue: [],
-    cacheReport: function(data) {
+    save: function(data) {
       this._queue.push(data);
       this.update();
     },
@@ -14,7 +14,7 @@ Bugsense.Cache = (function() {
     update: function () {
       Lockr.hset('bugsense_cache', this._queue);
     },
-    sendCachedReport: function() {
+    sendCache: function() {
       // do stuff here
       if(this._queue.length) {
         var that = this;

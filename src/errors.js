@@ -66,7 +66,7 @@ Bugsense.Errors = (function () {
     if(custom_data) data.custom_data = custom_data;
     parsedError = parse(data);
 
-    Bugsense.Network.send(generateExceptionData(parsedError), 'POST');
+    Bugsense.Network.sendCrash(generateExceptionData(parsedError));
     return true;
   };
 
