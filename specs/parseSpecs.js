@@ -9,7 +9,7 @@ describe("Bugsense::Parsing Error", function(){
     };
     window.parsedError = Bugsense.Errors.parse(error);
     expect(parsedError.message).toBe('a is not a variable');
-    expect(parsedError.custom_data).toBeUndefined();
+    expect(parsedError.custom_data).toEqual({});
     expect(parsedError.line).toEqual(102);
     expect(parsedError.url).toBe('file:///Users/dtsironis/Spl/bugsense.js/specs/build/specs.js');
   });

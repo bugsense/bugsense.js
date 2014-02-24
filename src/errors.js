@@ -19,10 +19,10 @@ Bugsense.Errors = (function () {
       url: data.url || data.lineNumber || data.sourceURL,
       line: data.line,
     };
-    parsedError.custom_data = data.custom_data || undefined;
+    parsedError.custom_data = data.custom_data || {};
 
     if (bowser.chrome) {
-      parsedError.stack = data.errorobj.stack
+      parsedError.stack = data.stack
     }
 
     return parsedError;
@@ -43,9 +43,9 @@ Bugsense.Errors = (function () {
         'klass': klass,
         'backtrace': stacktrace,
         'breadcrumbs': Bugsense.breadcrumbs
-      }
+      },
     });
-    if(error.custom_data) crash.application_environment.log_data = error.custom_data;
+    crash.application_environment.log_data = extend(Bugsense.extraData, error.custom_data)
 
     return crash;
   };
