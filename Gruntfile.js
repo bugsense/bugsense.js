@@ -45,7 +45,8 @@ module.exports = function(grunt) {
         'specs/notifySpecs.js',
         'specs/cacheSpecs.js',
         'specs/errorHashSpecs.js',
-        'specs/flatlineSpecs.js'
+        'specs/flatlineSpecs.js',
+        'specs/insightsSpecs.js'
       ],
       'lib/bugsense.js': [
         'src/libs/bowser.js',

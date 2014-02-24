@@ -281,6 +281,7 @@ describe("Bugsense::Notify server", function(){
 
 describe("Bugsense::Cache failed reports", function(){
   it("should cache a failed report", function(){
+    Bugsense.Cache._queue = [];
     expect(Bugsense.Cache._queue.length).toEqual(0);
     Bugsense.Cache.save({"client":{"name":"bugsense-js","version":"1.1"},"request":{},"exception":{"message":"message","where":":","klass":"message","backtrace":"message","breadcrumbs":["after_clearing"]},"application_environment":{"phone":"MacIntel","appver":"unknown","appname":"unknown","osver":"Intel Mac OS X 10.8","connection_type":"unknown","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:25.0) Gecko/20100101 Firefox/25.0","cordova":"unknown","device_name":"unknown","log_data":{}}});
     expect(Bugsense.Cache._queue.length).toEqual(1);
@@ -327,6 +328,59 @@ describe('Bugsense::Flatline', function() {
     expect(flatline[4]).toMatch(/Linux|Intel Mac OS X/);
     expect(flatline[5]).toEqual('1.1.1');
     expect(flatline[6]).toEqual('unknown');
+    expect(flatline[7]).toMatch(/[0-9]{10}/);
+  });
+});
+
+describe('Bugsense::Insights', function() {
+  beforeEach(function () {
+    server = sinon.fakeServer.create();
+  });
+  afterEach(function () {
+    server.restore();
+  });
+  it('should send a ping successfully', function() {
+    Bugsense.Sessions.ping();
+    server.requests[0].respond(
+      200,
+      { "Content-Type": "application/text-plain" },
+      "ok"
+    );
+    var flatline = decodeURIComponent(server.requests[0].requestBody).replace('"', '', "gi").split(':');
+    expect(flatline[0]).toBe("2.0.1");
+    expect(flatline[1]).toBe("_ping");
+    expect(flatline[2]).toBe("unknown");
+    expect(flatline[3]).toBe("unknown");
+    expect(flatline[4]).toMatch(/Intel Mac OS X|Linux/);
+    expect(flatline[5]).toBe("1.1.1");
+    expect(flatline[6]).toBe("unknown");
+    expect(flatline[7]).toMatch(/[0-9]{10}/);
+  });
+  it('should have correct URL arguments', function() {
+    Bugsense.Sessions.ping();
+    server.requests[0].respond(
+      200,
+      { "Content-Type": "application/text-plain" },
+      "ok"
+    );
+    expect(server.requests[0].url).toBe('https://ticks.bugsense.com/'+Bugsense.config.apiKey+'/'+Bugsense.config.uid);
+    expect(server.requests[0].method).toBe('POST');
+  });
+  it('should send an event successfully', function() {
+    Bugsense.Sessions.event('button_clicked');
+    server.requests[0].respond(
+      200,
+      { "Content-Type": "application/text-plain" },
+      "ok"
+    );
+    var flatline = decodeURIComponent(server.requests[0].requestBody).replace('"', '', "gi").split(':');
+    expect(flatline[0]).toBe("2.0.1");
+    expect(flatline[1]).toBe("button_clicked");
+    expect(flatline[2]).toBe("unknown");
+    expect(flatline[3]).toBe("unknown");
+    expect(flatline[4]).toMatch(/Intel Mac OS X|Linux/);
+    expect(flatline[5]).toBe("1.1.1");
+    expect(flatline[6]).toBe("unknown");
     expect(flatline[7]).toMatch(/[0-9]{10}/);
   });
 });

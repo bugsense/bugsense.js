@@ -8,7 +8,7 @@ Bugsense.Network = (function() {
       return "https://ticks.bugsense.com/"+Bugsense.get('apiKey')+"/"+Bugsense.get('uid');
     },
     sendCrash: function(data) {
-      this.send(data, 'POST', this.getCrashURL())
+      this.send(param({ data: JSON.stringify(data) }), 'POST', this.getCrashURL())
     },
     sendEvent: function(data) {
       this.send(data, 'POST', this.getTicksURL())
@@ -22,7 +22,7 @@ Bugsense.Network = (function() {
       var that = this;
       net.onerror = function (a) {
         /* cache the report */
-        that.cache(data);
+        Bugsense.Cache.save(data);
       }
       function successHandler() {
         if (net && net.readyState != 4) { return; }
@@ -36,7 +36,7 @@ Bugsense.Network = (function() {
       };
 
       net.onreadystatechange = successHandler;
-      net.send(param({ data: JSON.stringify(data) }));
+      net.send(data);
     }
   };
   return Network;
