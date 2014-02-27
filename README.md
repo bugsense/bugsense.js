@@ -27,7 +27,7 @@ default: ```{String} F00BAR```
 * ```port``` default: ```{Int} 8080```
 * ```apiVersion``` default: ```{String} 1.0```
 
-**```appVersion```** - This is the current version code of your application.
+**```appver```** - This is the current version code of your application.
 
 default: ```{String} null```
 
