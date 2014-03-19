@@ -41,7 +41,7 @@ Bugsense.Errors = (function () {
         'message': message,
         'where': [ url, line ].join( ':' ),
         'klass': klass,
-        'backtrace': stacktrace,
+        'backtrace': (stacktrace && stacktrace.length) ? stacktrace : [],
         'breadcrumbs': Bugsense.breadcrumbs
       },
     });
