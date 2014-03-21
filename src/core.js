@@ -23,6 +23,7 @@ window.Bugsense = (function(){
       options.uid = Bugsense.Sessions.generateUid();
       this.config = extend(this.config, options);
       Bugsense.Sessions.ping();
+      document.addEventListener("pause", this.closeSession, false);
     },
     closeSession: function () {
       return BugSense.Sessions.gnip();
