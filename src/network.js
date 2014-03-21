@@ -20,7 +20,10 @@ Bugsense.Network = (function() {
       })
     },
     sendEvent: function(data) {
-      this.send(data, 'POST', this.getTicksURL())
+      this.send(data, 'POST', this.getTicksURL(), function() {
+        if(data==="_ping")
+          BugSense.Sessions.lastSessionTimestamp = timestamp();
+      })
     },
     send: function(data, method, url, successHandler) {
       // Send the data over to Bugsense

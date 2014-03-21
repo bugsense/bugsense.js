@@ -20,13 +20,6 @@ Store the bugsense.js file along with you other Javascript files. Alternatively 
 
 default: ```{String} F00BAR```
 
-**```url```** - ```{Object}``` This is the url of the Gateway the SDK is sending data to.
-
-* ```protocol``` default: ```{String} https```
-* ```host``` default: ```{String} bugsense.com```
-* ```port``` default: ```{Int} 8080```
-* ```apiVersion``` default: ```{String} 1.0```
-
 **```appVersion```** - This is the current version code of your application.
 
 default: ```{String} null```
@@ -38,6 +31,11 @@ default: ```{String} null```
 **```disableOnError```** - Disables the global error handler, in order to use bugsense only for handle exceptions with ```try {...} catch```
 
 default: ```{Boolean} false```
+
+**```sessionTimeout```** - The expiration time after each sessios expire.
+
+default: ```{Number} 300000```
+
 
 ----
 

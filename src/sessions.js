@@ -15,10 +15,14 @@ Bugsense.Sessions = (function () {
   }
 
   var Sessions = {
+    lastSessionTimestamp: null,
     generateUid: function() {
       var uid = Lockr.get('bugsense:uid') || generator();
       Lockr.set('bugsense:uid', uid);
       return uid;
+    },
+    validSession: function () {
+      return !((this.lastSessionTimestamp - timestamp()) > 300000);
     },
     createFlatline: function(type) {
       var data = [];
@@ -33,6 +37,7 @@ Bugsense.Sessions = (function () {
       return data.join(':');
     },
     ping: function() {
+      if(this.validSession()){ return false }
       var ping = this.createFlatline('_ping');
       Bugsense.Network.sendEvent(ping);
     },

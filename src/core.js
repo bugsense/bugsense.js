@@ -13,9 +13,11 @@ window.Bugsense = (function(){
       osver: (typeof window.device !== 'undefined')
         ? window.device.version
         : ua.substr(ua.indexOf('; ')+2,ua.length).replace(')',';').split(';')[0] || 'unknown',
-        url: 'https://www.bugsense.com/api/errors',
-        device: (typeof window.device !== 'undefined') ? window.device.name : 'unknown',
-        context: window
+      url: 'https://www.bugsense.com/api/errors',
+      device: (typeof window.device !== 'undefined') ? window.device.name : 'unknown',
+      disableOnError: false,
+      sessionTimeout: 300000,
+      context: window
     },
     initAndStartSession: function(options) {
       options.uid = Bugsense.Sessions.generateUid();
