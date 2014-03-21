@@ -22,6 +22,9 @@ window.Bugsense = (function(){
       this.config = extend(this.config, options);
       Bugsense.Sessions.ping();
     },
+    closeSession: function () {
+      return BugSense.Sessions.gnip();
+    },
     get: function(attribute) {
       return Bugsense.config[attribute] || 'unknown';
     },

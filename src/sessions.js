@@ -36,6 +36,10 @@ Bugsense.Sessions = (function () {
       var ping = this.createFlatline('_ping');
       Bugsense.Network.sendEvent(ping);
     },
+    gnip: function () {
+      var gnip = this.createFlatline('_gnip');
+      Bugsense.Network.sendEvent(gnip);
+    },
     event: function(type) {
       var event = this.createFlatline(type);
       Bugsense.Network.sendEvent(event);
