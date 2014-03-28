@@ -1,7 +1,7 @@
 window.Bugsense = (function(){
 
   var config = {
-    apiKey: 'FOOBAR',
+    apiKey: null,
     message: null,
     uid: null,
     userIdentifier: null,
