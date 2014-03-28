@@ -10,24 +10,28 @@ Store the bugsense.js file along with you other Javascript files. Alternatively 
  <script src="http://www.bugsense.com/static/js/global/bugsense.js" type='text/javascript'></script>
  <script type="text/javascript">
     // You will find the API KEY in your BugSense Dashboard
-    var bugsense = new Bugsense( { apiKey: 'YOUR_API_KEY' } );
+    Bugsense.initAndStartSession({ apiKey: 'YOUR_API_KEY' });
  </script>
 ```
 
+## Downloads
+
+### Standard Builds
+
+Development: [bugsense.js](https://github.com/bugsense/bugsense.js/tree/master/lib/bugsense.js)
+Production: [bugsense..min.js](https://github.com/bugsense/bugsense.js/tree/master/lib/bugsense.min.js)
+
+### AMD/RequireJS Builds
+
+Development: [bugsense.js](https://github.com/bugsense/bugsense.js/tree/master/lib/amd/bugsense.js)
+Production: [bugsense..min.js](https://github.com/bugsense/bugsense.js/tree/master/lib/amd/bugsense.min.js)
 
 ## Options
 **```apiKey```** - API key for your BugSense project
 
 default: ```{String} F00BAR```
 
-**```url```** - ```{Object}``` This is the url of the Gateway the SDK is sending data to.
-
-* ```protocol``` default: ```{String} https```
-* ```host``` default: ```{String} bugsense.com```
-* ```port``` default: ```{Int} 8080```
-* ```apiVersion``` default: ```{String} 1.0```
-
-**```appver```** - This is the current version code of your application.
+**```appVersion```** - This is the current version code of your application.
 
 default: ```{String} null```
 
@@ -39,6 +43,11 @@ default: ```{String} null```
 
 default: ```{Boolean} false```
 
+**```sessionTimeout```** - The expiration time after each sessios expire.
+
+default: ```{Number} 300000```
+
+
 ----
 
 ## Registering handled exceptions
@@ -47,7 +56,7 @@ Bugsense.js allows you to register handled exception as well and append metadata
 try {
    rotateScreen();
 } catch ( error ) {
-   bugsense.notify( error, { rotation: 'not supported' } );
+   Bugsense.notify( error, { rotation: 'not supported' } );
 };
 ```
 
@@ -60,32 +69,32 @@ You can add extraData to the BugSense crash reports as well as breacrumbs to hel
 In order to add extra data in your instace, you can use the ```bugsense.addExtraData``` function.
 ```js
 /* add metadata */
-bugsense.addExtraData( 'user_level', 'paid' );
-bugsense.addExtraData( 'account', 'CEO' );
+Bugsense.addExtraData( 'user_level', 'paid' );
+Bugsense.addExtraData( 'account', 'CEO' );
 ```
 
 If you want to remove extra data, you can use the ```bugsense.removeExtraData``` and passing the key as a parameter.
 ```js
 /* Removing metadata by key */
-bugsense.removeExtraData('user_level');
+Bugsense.removeExtraData('user_level');
 ```
 
 Or you can clear all metadata by using ```bugsense.clearExtraData```.
 ```js
 /* Clear all metadata */
-bugsense.clearExtraData();
+Bugsense.clearExtraData();
 ```
 
 ### Managing Breadcrumbs
 By adding breadcrumbs to your code you can easily see the trail the user followed before getting the crash. Just leave a breadcrumb by using ```bugsense.leaveBreadcrumb```.
 ```js
 /* leave breadcrumb */
-bugsense.leaveBreadcrumb( 'Fetch Friendlist' );
+Bugsense.leaveBreadcrumb( 'Fetch Friendlist' );
 ```
 Also, you can also clear all breadcrumbs
 ```js
 /* clear breadcrumbs */
-bugsense.clearBreadcrumbs();
+Bugsense.clearBreadcrumbs();
 ```
 
 ----
@@ -123,7 +132,7 @@ In order to install globally Grunt.js run:
 npm install -g grunt-cli
 ```
 
-In order to install PhantomJS, visit [their website](http://phantomjs.org/) and find the right package for you. If you're using Mac OS X, it's recommender to use Homebrew for installation:
+If you have problem installing PhantomsJS with `npm install`, visit [their website](http://phantomjs.org/) and find the right package for you. If you're using Mac OS X, it's recommender to use Homebrew for installation:
 ```brew install phantomjs```
 
 When all dependencies are installed, run ```grunt specs``` in order to run the whole suite. If you're developing you can watch your file changes with ```grunt watch```, which will then automatically run your specs.
@@ -136,5 +145,5 @@ You can also run the specs in your browser. Open the ```_SpecRunner.html``` in y
 
 * Older browser do not support the ```window.onerror``` callback and thefore the plugin will not receive any uncaught exception. 
 * When there's only the Error object caught, error.stack will be parsed to get the url and line number.
-* Deobfuscation or retracing for minified and/or obfuscated Javascript files is not supported yet.
+* Deobfuscation or retracing for minified and/or obfuscated Javascript files is not supported yet, but it's heavily considered. If you have any ideas about this feature open issue or a pull request.
 * Bugsense.js uses CORS to send crash reports.
