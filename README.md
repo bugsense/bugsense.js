@@ -18,13 +18,13 @@ Store the bugsense.js file along with you other Javascript files. Alternatively 
 
 ### Standard Builds
 
-Development: [bugsense.js](https://github.com/bugsense/bugsense.js/tree/master/lib/bugsense.js)
-Production: [bugsense..min.js](https://github.com/bugsense/bugsense.js/tree/master/lib/bugsense.min.js)
+* Development: [bugsense.js](https://github.com/bugsense/bugsense.js/tree/master/lib/bugsense.js)
+* Production: [bugsense.min.js](https://github.com/bugsense/bugsense.js/tree/master/lib/bugsense.min.js)
 
 ### AMD/RequireJS Builds
 
-Development: [bugsense.js](https://github.com/bugsense/bugsense.js/tree/master/lib/amd/bugsense.js)
-Production: [bugsense..min.js](https://github.com/bugsense/bugsense.js/tree/master/lib/amd/bugsense.min.js)
+* Development: [bugsense.js](https://github.com/bugsense/bugsense.js/tree/master/lib/amd/bugsense.js)
+* Production: [bugsense.min.js](https://github.com/bugsense/bugsense.js/tree/master/lib/amd/bugsense.min.js)
 
 ## Options
 **```apiKey```** - API key for your BugSense project
