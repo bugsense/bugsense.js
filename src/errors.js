@@ -19,10 +19,10 @@ Bugsense.Errors = (function () {
       url: data.url || data.lineNumber || data.sourceURL,
       line: data.line,
     };
-    parsedError.custom_data = data.custom_data || undefined;
+    parsedError.custom_data = data.custom_data || {};
 
     if (bowser.chrome) {
-      parsedError.stack = data.errorobj.stack
+      parsedError.stack = data.stack
     }
 
     return parsedError;
@@ -43,18 +43,18 @@ Bugsense.Errors = (function () {
         'klass': klass,
         'backtrace': (stacktrace && stacktrace.length) ? stacktrace : [],
         'breadcrumbs': Bugsense.breadcrumbs
-      }
+      },
     });
-    if(error.custom_data) crash.application_environment.log_data = error.custom_data;
+    crash.application_environment.log_data = extend(Bugsense.extraData, error.custom_data)
 
     return crash;
   };
-  
+
   var generateStackTrace = function(error) {
-   var stack = TraceKit.computeStackTrace(error).stack;
-   return stack.map(function (s) {
-     return s.func+"@"+s.url+":"+s.line;
-   });
+    var stack = TraceKit.computeStackTrace(error).stack;
+    return stack.map(function (s) {
+      return s.func+"@"+s.url+":"+s.line;
+    });
   };
   var getStackTrace = function(error) {
     return error.stack || generateStackTrace(error);
@@ -71,18 +71,21 @@ Bugsense.Errors = (function () {
   };
 
   window.onerror = function(exception, url, line, column, errorobj) {
-    // Ignore bugsense raised exception
-    // if (window.bugsense.isBugsenseException(exception))
-    //   return false;
-    Bugsense.trigger('crash');
+    if(Bugsense.config.apiKey) {
+      Bugsense.trigger('crash');
 
-    return Bugsense.notify({
-      exception: exception,
-      url: url,
-      line: line,
-      column: column,
-      errorobj: errorobj
-    });
+      return Bugsense.notify({
+        exception: exception,
+        url: url,
+        line: line,
+        column: column,
+        errorobj: errorobj
+      });
+    } else {
+      if('warn' in console) console.warn('You need a BugSense API key to use bugsense.js.')
+      else console.log('You need a BugSense API key to use bugsense.js');
+      return false
+    }
   };
 
   return {

@@ -7,6 +7,7 @@ describe("Bugsense::Notify server", function(){
   });
   it('should catch a handled error with try...catch', function() {
     var response;
+    Bugsense.addExtraData('testing', 'hey-oh');
     try {
       dontpanic++;
     } catch (e) {
@@ -36,5 +37,7 @@ describe("Bugsense::Notify server", function(){
     expect(body.application_environment.user_agent).toMatch(/Firefox|Chrome|PhantomJS 1.9.7/);
     expect(body.application_environment.osver).toMatch(/Intel Mac OS X|Linux x86_64/);
     expect(body.exception.breadcrumbs.length).toEqual(1);
+    expect(body.application_environment.log_data.testing).toBe("hey-oh");
+    expect(body.application_environment.log_data.rotation).toBe("not supported");
   });
 });

@@ -25,7 +25,7 @@ describe('Bugsense::Instance', function  () {
 describe('Bugsense::Configuration', function () {
   it('should have correct default attributes',function () {
     expect(Bugsense.config.url).toBe('https://www.bugsense.com/api/errors');
-    expect(Bugsense.config.apiKey).toBe('FOOBAR');
+    expect(Bugsense.config.apiKey).toBeNull();
   });
   it("should change correctly an attribute", function(){
     Bugsense.initAndStartSession({

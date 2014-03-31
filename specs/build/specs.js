@@ -25,7 +25,7 @@ describe('Bugsense::Instance', function  () {
 describe('Bugsense::Configuration', function () {
   it('should have correct default attributes',function () {
     expect(Bugsense.config.url).toBe('https://www.bugsense.com/api/errors');
-    expect(Bugsense.config.apiKey).toBe('FOOBAR');
+    expect(Bugsense.config.apiKey).toBeNull();
   });
   it("should change correctly an attribute", function(){
     Bugsense.initAndStartSession({
@@ -188,7 +188,7 @@ describe("Bugsense::Parsing Error", function(){
     };
     window.parsedError = Bugsense.Errors.parse(error);
     expect(parsedError.message).toBe('a is not a variable');
-    expect(parsedError.custom_data).toBeUndefined();
+    expect(parsedError.custom_data).toEqual({});
     expect(parsedError.line).toEqual(102);
     expect(parsedError.url).toBe('file:///Users/dtsironis/Spl/bugsense.js/specs/build/specs.js');
     expect(parsedError.handled).toBeFalsy();
@@ -247,6 +247,7 @@ describe("Bugsense::Notify server", function(){
   });
   it('should catch a handled error with try...catch', function() {
     var response;
+    Bugsense.addExtraData('testing', 'hey-oh');
     try {
       dontpanic++;
     } catch (e) {
@@ -276,6 +277,8 @@ describe("Bugsense::Notify server", function(){
     expect(body.application_environment.user_agent).toMatch(/Firefox|Chrome|PhantomJS 1.9.7/);
     expect(body.application_environment.osver).toMatch(/Intel Mac OS X|Linux x86_64/);
     expect(body.exception.breadcrumbs.length).toEqual(1);
+    expect(body.application_environment.log_data.testing).toBe("hey-oh");
+    expect(body.application_environment.log_data.rotation).toBe("not supported");
   });
 });
 
