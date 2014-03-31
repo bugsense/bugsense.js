@@ -29,7 +29,7 @@ extend(Bugsense.prototype, {
           : ua.substr(ua.indexOf('; ')+2,ua.length).replace(')',';').split(';')[0] || 'unknown',
           'user_agent' : bowser.name+" "+bowser.version,
           'cordova' : ( typeof window.device !== 'undefined' ) ? window.device.cordova : 'unknown',
-          'device_name' : ( typeof window.device !== 'undefined' ) ? window.device.name : 'unknown',
+          'device_name' : ( typeof window.device !== 'undefined' ) ? window.device.model : 'unknown',
           'log_data' : {}
       }
     }
