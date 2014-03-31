@@ -43,11 +43,6 @@ default: ```{String} null```
 
 default: ```{Boolean} false```
 
-**```sessionTimeout```** - The expiration time after each sessios expire.
-
-default: ```{Number} 300000```
-
-
 ----
 
 ## Registering handled exceptions
