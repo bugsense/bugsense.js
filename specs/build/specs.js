@@ -10,6 +10,9 @@ describe('Bugsense::Instance', function  () {
     expect(typeof(Bugsense.addExtraData)).toBe('function');
     expect(typeof(Bugsense.clearBreadcrumbs)).toBe('function');
     expect(typeof(Bugsense.clearExtraData)).toBe('function');
+    expect(typeof(Bugsense.startSession)).toBe('function');
+    expect(typeof(Bugsense.closeSession)).toBe('function');
+    expect(typeof(Bugsense.sendEvent)).toBe('function');
     expect(typeof(Bugsense.Network.getCrashURL)).toBe('function');
     expect(typeof(Bugsense.Network.getTicksURL)).toBe('function');
     expect(typeof(Bugsense.leaveBreadcrumb)).toBe('function');
@@ -20,6 +23,12 @@ describe('Bugsense::Instance', function  () {
     expect(typeof(Bugsense.Cache.update)).toBe('function');
     expect(typeof(Bugsense.Cache.save)).toBe('function');
     expect(typeof(Bugsense.Cache.retrieve)).toBe('function');
+    expect(typeof(Bugsense.Sessions.ping)).toBe('function');
+    expect(typeof(Bugsense.Sessions.gnip)).toBe('function');
+    expect(typeof(Bugsense.Sessions.event)).toBe('function');
+    expect(typeof(Bugsense.Sessions.createFlatline)).toBe('function');
+    expect(typeof(Bugsense.Sessions.validSession)).toBe('function');
+    expect(typeof(Bugsense.Sessions.generateUid)).toBe('function');
   });
 })
 describe('Bugsense::Configuration', function () {

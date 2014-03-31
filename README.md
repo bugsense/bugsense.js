@@ -7,7 +7,7 @@
 Store the bugsense.js file along with you other Javascript files. Alternatively you can use the BugSense hosted version (see the following snippet). Then, instanciate the plugin with the API key from your project:
 
 ```html
- <script src="http://www.bugsense.com/static/js/global/bugsense.js" type='text/javascript'></script>
+ <script src="path/to/vendor/bugsense.js" type='text/javascript'></script>
  <script type="text/javascript">
     // You will find the API KEY in your BugSense Dashboard
     Bugsense.initAndStartSession({ apiKey: 'YOUR_API_KEY' });
@@ -43,7 +43,7 @@ default: ```{String} null```
 
 default: ```{Boolean} false```
 
-**```sessionTimeout```** - The expiration time after each sessios expire.
+**```sessionTimeout```** - The time after each sessios expire.
 
 default: ```{Number} 300000```
 
@@ -99,18 +99,48 @@ Bugsense.clearBreadcrumbs();
 
 ----
 
-## Registering events
+## Sending Events
+
+Bugsense.js can help you gather insights about your application. You can send events to BugSense service and analyze them using our Dashboard (Insights, Realtime page etc.)
+
+### Ping event
+
+You can use the following method the send a `ping` event (start of session) to BugSense.
+
+```js
+Bugsense.startSession();
+```
+
+### Gnip event
+
+You can use the following method the send a `gnip` event (end of session) to BugSense.
+```js
+Bugsense.closeSession();
+```
+
+> **Important!** We suggest that you let bugsense.js handle `ping` and `gnip` events, or if you need to configure how often your sessions last, customize SDK's behaviour by setting the `sessionTimeout` option in `Bugsense.initAndStartSession` function. 
+
+### Custom events
+
+If you want to log custom events, use the `sendEvent(String)` as following:
+
+```js 
+Bugsense.sendEvent("button clicked");
+Bugsense.sendEvent("shopping cart empty");
+```
+
+## Registering crash callback
 Bugsense.js provides an easy way for developers to use events in order to handle crashes more effectively.
 
 ```js
 function ooops() {
   alert('Ooops! Our app just crashed. Please send us an email at support@example.com');
 }
-bugsense.on("crash", ooops);
+Bugsense.on("crash", ooops);
 ```
 When this is done, you can unregister the event to avoid spamming your users with countless alerts of notifications.
 ```js
-bugsense.off("crash", ooops);
+Bugsense.off("crash", ooops);
 ```
 
 ----

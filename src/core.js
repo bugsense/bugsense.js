@@ -25,8 +25,14 @@ window.Bugsense = (function(){
       Bugsense.Sessions.ping();
       document.addEventListener("pause", this.closeSession, false);
     },
+    startSession: function () {
+      return Bugsense.Sessions.ping();
+    },
     closeSession: function () {
       return BugSense.Sessions.gnip();
+    },
+    sendEvent: function (type) {
+      return Bugsense.event(type);
     },
     get: function(attribute) {
       return Bugsense.config[attribute] || 'unknown';
