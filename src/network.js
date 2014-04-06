@@ -1,8 +1,8 @@
 Bugsense.Network = (function() {
 
   var Network = {
-    getPostURL: function( type ) {
-      return Bugsense.config.url + '?cacheBuster='+timestamp();
+    getPostURL: function() {
+      return Bugsense.config.url + '?cacheBuster=' + timestamp();
     },
     send: function(data, method) {
       // Send the data over to Bugsense
@@ -11,7 +11,7 @@ Bugsense.Network = (function() {
       net.setRequestHeader('X-BugSense-Api-Key', Bugsense.config.apiKey);
       net.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
       var that = this;
-      net.onerror = function (a) {
+      net.onerror = function () {
         /* cache the report */
         that.cacheReport(data);
       }
