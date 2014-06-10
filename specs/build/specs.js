@@ -30,12 +30,12 @@ describe('Bugsense::Configuration', function () {
     Bugsense.initAndStartSession({
       apiKey: "8a581d8a",
       appname: 'theApp',
-      appver: '1.1.1',
+      appVersion: '1.1.1',
       userIdentifier: 'tsironis'
     });
     expect(Bugsense.config.apiKey).toBe("8a581d8a");
     expect(Bugsense.config.appname).toBe("theApp");
-    expect(Bugsense.config.appver).toBe("1.1.1");
+    expect(Bugsense.config.appVersion).toBe("1.1.1");
     expect(Bugsense.config.userIdentifier).toBe("tsironis");
   });
 });

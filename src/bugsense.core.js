@@ -5,7 +5,7 @@ window.Bugsense = (function(){
     message: null,
     uid: null,
     userIdentifier: null,
-    appver: null,
+    appVersion: null,
     appname: null,
     osver: null,
     url: 'https://www.bugsense.com/api/errors',
@@ -36,7 +36,7 @@ window.Bugsense = (function(){
       },
       application_environment: {
         'phone': window.navigator.platform,
-        'appver': (Bugsense.config.appver || 'unknown'),
+        'appver': (Bugsense.config.appVersion || 'unknown'),
         'appname': (Bugsense.config.appname || 'unknown'),
         'osver': (typeof window.device !== 'undefined')
           ? window.device.version
