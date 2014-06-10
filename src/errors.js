@@ -71,20 +71,23 @@ Bugsense.Errors = (function () {
   };
 
   window.onerror = function(exception, url, line, column, errorobj) {
-    if(Bugsense.config.apiKey) {
-      Bugsense.trigger('crash');
+    if(!Bugsense.config.disableOnError) {
+      if(Bugsense.config.apiKey) {
+        Bugsense.trigger('crash');
 
-      return Bugsense.notify({
-        exception: exception,
-        url: url,
-        line: line,
-        column: column,
-        errorobj: errorobj
-      });
-    } else {
-      if('warn' in console) console.warn('You need a BugSense API key to use bugsense.js.')
-      else console.log('You need a BugSense API key to use bugsense.js');
-      return false
+        return Bugsense.notify({
+          exception: exception,
+          url: url,
+          line: line,
+          column: column,
+          errorobj: errorobj
+        });
+      } else {
+        var msg = 'You need a BugSense API key to use bugsense.js.';
+        if('warn' in console) console.warn(msg)
+        else console.log(msg);
+        return false
+      }
     }
   };
 

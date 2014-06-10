@@ -9,6 +9,7 @@ window.Bugsense = (function(){
     appname: null,
     osver: null,
     url: 'https://www.bugsense.com/api/errors',
+    disableOnError: false,
     context: window
   };
 

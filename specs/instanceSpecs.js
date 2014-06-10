@@ -31,12 +31,14 @@ describe('Bugsense::Configuration', function () {
       apiKey: "8a581d8a",
       appname: 'theApp',
       appVersion: '1.1.1',
-      userIdentifier: 'tsironis'
+      userIdentifier: 'tsironis',
+      disableOnError: true
     });
     expect(Bugsense.config.apiKey).toBe("8a581d8a");
     expect(Bugsense.config.appname).toBe("theApp");
     expect(Bugsense.config.appVersion).toBe("1.1.1");
     expect(Bugsense.config.userIdentifier).toBe("tsironis");
+    expect(Bugsense.config.disableOnError).toBe(true);
   });
 });
 describe('Bugsense::Unique ID', function() {
