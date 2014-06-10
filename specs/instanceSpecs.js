@@ -40,6 +40,16 @@ describe('Bugsense::Configuration', function () {
     expect(Bugsense.config.userIdentifier).toBe("tsironis");
     expect(Bugsense.config.disableOnError).toBe(true);
   });
+  it('should have backwards compatible init params', function() {
+    Bugsense.initAndStartSession({
+      apiKey: "8a581d8a",
+      appname: 'theApp',
+      appver: '1.1.1',
+      userIdentifier: 'tsironis',
+      disableOnError: true
+    });
+    expect(Bugsense.config.appVersion).toBe('1.1.1')
+  });
 });
 describe('Bugsense::Unique ID', function() {
   it("should have a retain a saved uid", function(){
