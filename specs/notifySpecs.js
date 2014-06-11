@@ -5,6 +5,25 @@ describe("Bugsense::Notify server", function(){
   afterEach(function() {
     server.restore();
   });
+  var callOnError = function (state) {
+    Bugsense.initAndStartSession({
+      apiKey: "8a581d8a",
+      appname: 'theApp',
+      appVersion: '1.1.1',
+      userIdentifier: 'tsironis',
+      disableOnError: state
+    });
+    spyOn(Bugsense, 'notify');
+    window.onerror();
+  };
+  it('should call notify onError (disableOnError equals false)', function() {
+    callOnError(false);
+    expect(Bugsense.notify).toHaveBeenCalled();
+  });
+  it('should call notify onError (disableOnError equals true)', function() {
+    callOnError(true);
+    expect(Bugsense.notify).not.toHaveBeenCalled();
+  });
   it('should catch a handled error with try...catch', function() {
     var response;
     Bugsense.addExtraData('testing', 'hey-oh');

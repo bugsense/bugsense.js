@@ -5,16 +5,20 @@ window.Bugsense = (function(){
     message: null,
     uid: null,
     userIdentifier: null,
-    appver: null,
+    appVersion: null,
     appname: null,
     osver: null,
     url: 'https://www.bugsense.com/api/errors',
+    disableOnError: false,
     context: window
   };
 
   var initAndStartSession = function(options) {
+    if(options.appver) {
+      options.appVersion = options.appver;
+      delete options.appver;
+    }
     config = extend(config, options);
-    // starting session
   };
 
   var generateFixture = function() {
@@ -36,7 +40,7 @@ window.Bugsense = (function(){
       },
       application_environment: {
         'phone': window.navigator.platform,
-        'appver': (Bugsense.config.appver || 'unknown'),
+        'appver': (Bugsense.config.appVersion || 'unknown'),
         'appname': (Bugsense.config.appname || 'unknown'),
         'osver': (typeof window.device !== 'undefined')
           ? window.device.version

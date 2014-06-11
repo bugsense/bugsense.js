@@ -30,13 +30,25 @@ describe('Bugsense::Configuration', function () {
     Bugsense.initAndStartSession({
       apiKey: "8a581d8a",
       appname: 'theApp',
-      appver: '1.1.1',
-      userIdentifier: 'tsironis'
+      appVersion: '1.1.1',
+      userIdentifier: 'tsironis',
+      disableOnError: true
     });
     expect(Bugsense.config.apiKey).toBe("8a581d8a");
     expect(Bugsense.config.appname).toBe("theApp");
-    expect(Bugsense.config.appver).toBe("1.1.1");
+    expect(Bugsense.config.appVersion).toBe("1.1.1");
     expect(Bugsense.config.userIdentifier).toBe("tsironis");
+    expect(Bugsense.config.disableOnError).toBe(true);
+  });
+  it('should have backwards compatible init params', function() {
+    Bugsense.initAndStartSession({
+      apiKey: "8a581d8a",
+      appname: 'theApp',
+      appver: '1.1.1',
+      userIdentifier: 'tsironis',
+      disableOnError: true
+    });
+    expect(Bugsense.config.appVersion).toBe('1.1.1')
   });
 });
 describe('Bugsense::Unique ID', function() {
@@ -240,6 +252,25 @@ describe("Bugsense::Notify server", function(){
   });
   afterEach(function() {
     server.restore();
+  });
+  var callOnError = function (state) {
+    Bugsense.initAndStartSession({
+      apiKey: "8a581d8a",
+      appname: 'theApp',
+      appVersion: '1.1.1',
+      userIdentifier: 'tsironis',
+      disableOnError: state
+    });
+    spyOn(Bugsense, 'notify');
+    window.onerror();
+  };
+  it('should call notify onError (disableOnError equals false)', function() {
+    callOnError(false);
+    expect(Bugsense.notify).toHaveBeenCalled();
+  });
+  it('should call notify onError (disableOnError equals true)', function() {
+    callOnError(true);
+    expect(Bugsense.notify).not.toHaveBeenCalled();
   });
   it('should catch a handled error with try...catch', function() {
     var response;
