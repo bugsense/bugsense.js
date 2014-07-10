@@ -31,7 +31,11 @@ Store the bugsense.js file along with you other Javascript files. Alternatively 
 
 default: ```{String} F00BAR```
 
-**```appVersion```** - This is the current version code of your application.
+**```appver```** - This is the current version code of your application.
+
+default: ```{String} null```
+
+**```appname```** - This is the name of your application.
 
 default: ```{String} null```
 
