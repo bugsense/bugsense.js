@@ -20,7 +20,7 @@ Bugsense.Crashes = (function() {
   Bugsense.leaveBreadcrumb = function( breadcrumb ) {
     if ( isValidKeyValue( breadcrumb ) ) {
       if ( Bugsense.breadcrumbs.length + 1 == 16 ) {
-        Bugsense.breadcrumbs = Bugsense.breacrumbs.slice( 1 );
+        Bugsense.breadcrumbs = Bugsense.breadcrumbs.slice( 1 );
       }
       Bugsense.breadcrumbs.push( breadcrumb );
     }
