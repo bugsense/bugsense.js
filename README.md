@@ -35,6 +35,10 @@ default: ```{String} F00BAR```
 
 default: ```{String} null```
 
+**```appname```** - This is the name of your application.
+
+default: ```{String} null```
+
 **```userIdentifier```** - This is a identifier for each user, eg. "example@gmail.com" or a username
 
 default: ```{String} null```
