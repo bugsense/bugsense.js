@@ -52,9 +52,13 @@ Bugsense.Errors = (function () {
 
   var generateStackTrace = function(error) {
     var stack = TraceKit.computeStackTrace(error).stack;
-    return stack.map(function (s) {
-      return s.func+"@"+s.url+":"+s.line;
-    });
+    if (stack) {
+      return stack.map(function(s) {
+        return s.func+"@"+s.url+":"+s.line;
+      });
+    } else {
+      return [];
+    }
   };
   var getStackTrace = function(error) {
     return error.stack || generateStackTrace(error);
