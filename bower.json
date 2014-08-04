@@ -1,6 +1,7 @@
 {
   "name": "bugsense",
   "version": "2.0.0",
+  "main": "lib/bugsense.js",
   "ignore": [
     "**/.*",
     "**/_*",
