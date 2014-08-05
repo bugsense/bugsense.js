@@ -97,11 +97,6 @@ module.exports = function(grunt) {
         files: {
           'lib/amd/bugsense.min.js': ['lib/amd/bugsense.js']
         }
-      },
-      example: {
-        files: {
-          'playground/example.min.js': ['playground/example.js']
-        }
       }
     },
     watch: {

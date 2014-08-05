@@ -14,16 +14,14 @@ Bugsense.Errors = (function () {
   };
 
   var parse = function(data) {
+    var stack = data.errorobj ? data.errorobj.stack : data.stack || null;
     var parsedError = { // Chrome
       message: data.exception || data.message,
       url: data.url || data.lineNumber || data.sourceURL,
       line: data.line,
+      stack: stack,
     };
     parsedError.custom_data = data.custom_data || {};
-
-    if (bowser.chrome) {
-      parsedError.stack = data.stack
-    }
 
     return parsedError;
   };
@@ -93,6 +91,7 @@ Bugsense.Errors = (function () {
         return false
       }
     }
+    return false;
   };
 
   return {
