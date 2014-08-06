@@ -69,7 +69,7 @@ Bugsense.Errors = (function () {
     parsedError = parse(data);
 
     Bugsense.Network.send(generateExceptionData(parsedError), 'POST');
-    return true;
+    return false;
   };
 
   window.onerror = function(exception, url, line, column, errorobj) {
