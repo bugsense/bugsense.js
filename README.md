@@ -62,7 +62,7 @@ try {
 ----
 
 ## ExtraData & Breadcrumbs
-You can add extraData to the BugSense crash reports as well as breacrumbs to help you debug your app faster!
+You can add extraData to the BugSense crash reports as well as breadcrumbs to help you debug your app faster!
 
 ### Managing extraData
 In order to add extra data in your instace, you can use the ```bugsense.addExtraData``` function.
