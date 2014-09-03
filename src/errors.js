@@ -69,7 +69,6 @@ Bugsense.Errors = (function () {
     parsedError = parse(data);
 
     Bugsense.Network.send(generateExceptionData(parsedError), 'POST');
-    return false;
   };
 
   window.onerror = function(exception, url, line, column, errorobj) {
@@ -77,7 +76,7 @@ Bugsense.Errors = (function () {
       if(Bugsense.config.apiKey) {
         Bugsense.trigger('crash');
 
-        return Bugsense.notify({
+        Bugsense.notify({
           exception: exception,
           url: url,
           line: line,
@@ -88,10 +87,8 @@ Bugsense.Errors = (function () {
         var msg = 'You need a BugSense API key to use bugsense.js.';
         if('warn' in console) console.warn(msg)
         else console.log(msg);
-        return false
       }
     }
-    return false;
   };
 
   return {
