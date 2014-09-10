@@ -39,7 +39,6 @@ describe("Bugsense::Notify server", function(){
         { "Content-Type": "application/json" },
         JSON.stringify({eid: '123123123'})
     );
-    expect(response).toBe(false);
 
     var req = server.requests[0]
     var url = req.url.split('=');
