@@ -4,11 +4,7 @@
   * MIT License | (c) Dustin Diaz 2014
   */
 
-!function (name, definition) {
-  if (typeof module != 'undefined' && module.exports) module.exports['browser'] = definition()
-  else if (typeof define == 'function') define(definition)
-  else this[name] = definition()
-}('bowser', function () {
+(function () {
   /**
    * See useragents.js for examples of navigator.userAgent
    */
@@ -235,5 +231,5 @@
    */
   bowser._detect = detect;
 
-  return bowser
-});
+  this.bowser = bowser;
+}).call(this);
