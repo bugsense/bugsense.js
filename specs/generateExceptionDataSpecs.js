@@ -28,7 +28,7 @@ describe("Busense::Generate Exception Data", function(){
     expect(Object.keys(data.application_environment).length).toEqual(8);
     expect(data.application_environment.phone).toMatch(/MacIntel|Linux x86_64/);
     expect(data.application_environment.appver).toBe('1.1.1');
-    expect(data.application_environment.osver).toMatch(/Intel Mac OS X|Linux x86_64/);
+    expect(data.application_environment.osver).toMatch(/PPC Mac OS X|Intel Mac OS X|Linux x86_64/);
     expect(data.application_environment.appname).toBe('theApp');
     expect(data.application_environment.user_agent).toMatch(/Firefox|Chrome|PhantomJS/)
     expect(data.application_environment.cordova).toBe('unknown');

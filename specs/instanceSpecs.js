@@ -71,7 +71,7 @@ xdescribe('Bugsense::Data fixture', function () {
     expect(bugsense.dataFixture.client.version).toBe("2.1.0");
     expect(bugsense.dataFixture.application_environment.appname).toBe("theApp");
     expect(bugsense.dataFixture.application_environment.appver).toBe("1.1.1");
-    expect(bugsense.dataFixture.application_environment.osver).toMatch(/Intel Mac OS X|Linux x86_64/);
+    expect(bugsense.dataFixture.application_environment.osver).toMatch(/PPC Mac OS X|Intel Mac OS X|Linux x86_64/);
     expect(bugsense.dataFixture.application_environment.cordova).toBe("unknown");
     expect(bugsense.dataFixture.application_environment.device_name).toBe("unknown");
     expect(bugsense.dataFixture.application_environment.phone).toMatch(/MacIntel|Linux x86_64/);
