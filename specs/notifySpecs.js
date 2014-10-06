@@ -44,7 +44,7 @@ describe("Bugsense::Notify server", function(){
     var url = req.url.split('=');
 
     /* Testing url */
-    expect(url[0]).toBe('https://www.bugsense.com/api/errors?cacheBuster');
+    expect(url[0]).toBe('https://mint.splunk.com/api/errors?cacheBuster');
     expect(url[1]).toMatch(/\d/);
 
     // /* Request headers */
