@@ -14,7 +14,7 @@ describe("Busense::Generate Exception Data", function(){
   it("should generate a valid crash fixture (client)", function () {
     expect(Object.keys(data.client).length).toEqual(2);
     expect(data.client.name).toBe('bugsense-js');
-    expect(data.client.version).toBe('2.1.0');
+    expect(data.client.version).toBe('2.2.0');
   });
   it("should generate a valid crash fixture (exception)", function () {
     expect(Object.keys(data.exception).length).toEqual(5);

@@ -26,7 +26,7 @@ window.Bugsense = (function(){
     return {
       client: {
         'name' : 'bugsense-js',
-        'version' : '2.1.0'
+        'version' : '2.2.0'
       },
       request: {
         'user_id': (Bugsense.config.userIdentifier || 'unknown'),
