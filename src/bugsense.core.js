@@ -10,6 +10,7 @@ window.Bugsense = (function(){
     osver: null,
     url: 'https://mint.splunk.com/api/errors',
     disableOnError: false,
+    silent: false,
     context: window
   };
 

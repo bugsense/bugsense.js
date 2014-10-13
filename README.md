@@ -47,6 +47,10 @@ default: ```{String} null```
 
 default: ```{Boolean} false```
 
+**```silent```** - Disables logging any kind of information to browser's console, in order to behave better in production environments
+
+default: ```{Boolean} false```
+
 ----
 
 ## Registering handled exceptions

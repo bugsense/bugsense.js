@@ -32,13 +32,15 @@ describe('Bugsense::Configuration', function () {
       appname: 'theApp',
       appVersion: '1.1.1',
       userIdentifier: 'tsironis',
-      disableOnError: true
+      disableOnError: true,
+      silent: true
     });
     expect(Bugsense.config.apiKey).toBe("8a581d8a");
     expect(Bugsense.config.appname).toBe("theApp");
     expect(Bugsense.config.appVersion).toBe("1.1.1");
     expect(Bugsense.config.userIdentifier).toBe("tsironis");
     expect(Bugsense.config.disableOnError).toBe(true);
+    expect(Bugsense.config.silent).toBe(true);
   });
   it('should have backwards compatible init params', function() {
     Bugsense.initAndStartSession({

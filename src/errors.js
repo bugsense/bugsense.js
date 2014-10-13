@@ -85,7 +85,7 @@ Bugsense.Errors = (function () {
         });
       } else {
         var msg = 'You need a BugSense API key to use bugsense.js.';
-        if('warn' in console) console.warn(msg)
+        if('warn' in console && !Bugsense.config.silent) console.warn(msg)
         else console.log(msg);
       }
     }

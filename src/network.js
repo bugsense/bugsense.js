@@ -20,7 +20,7 @@ Bugsense.Network = (function() {
           return false;
         }
         // some console.log implementations don't support multiple parameters, guess it's okay in this case to concatenate
-        if ('console' in window) {
+        if ('console' in window && !Bugsense.config.silent) {
           console.log('logged 1 error to Bugsense, status: ' + net.responseText);
         }
       };
