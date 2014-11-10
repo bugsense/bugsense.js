@@ -57,5 +57,7 @@ describe("Bugsense::Notify server", function(){
     expect(body.exception.breadcrumbs.length).toEqual(1);
     expect(body.application_environment.log_data.testing).toBe("hey-oh");
     expect(body.application_environment.log_data.rotation).toBe("not supported");
+
+    expect(body.request.handled).toEqual(1);
   });
 });

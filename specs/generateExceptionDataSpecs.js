@@ -1,7 +1,7 @@
 describe("Busense::Generate Exception Data", function(){
   //it should do sth
   beforeEach(function () {
-    var error = {
+    error = {
       "message": "Can't find variable: dontpanic",
       "url": "http://localhost:7000/specs/build/specs.js",
       "line": 182,
@@ -22,6 +22,7 @@ describe("Busense::Generate Exception Data", function(){
     expect(data.exception.message).toBe("Can't find variable: dontpanic");
     expect(data.exception.where).toMatch(/http:\/\/localhost:7000\/specs\/build\/specs.js/);
     expect(data.exception.breadcrumbs.length).toEqual(1);
+    expect(data.request.handled).toEqual(1);
   });
   it("should generate a valid crash fixture (app environment)", function () {
     expect(data.exception.breadcrumbs[0]).toBe('after_clearing');
@@ -38,5 +39,9 @@ describe("Busense::Generate Exception Data", function(){
   it("should generate a valid backtrace", function(){
     // write expectations
     expect(data.exception.backtrace.length).toEqual(11);
+  });
+  it('should check for unhandled exception', function() {
+    data = Bugsense.Errors.generateExceptionData(error, true);
+    expect(data.request.handled).toEqual(0);
   });
 });

@@ -26,7 +26,7 @@ Bugsense.Errors = (function () {
     return parsedError;
   };
 
-  var generateExceptionData = function(error) {
+  var generateExceptionData = function(error, unhandled) {
     var message = ( typeof(error) != "string" ) ? error.message : error,
         crash = {},
         stacktrace = getStackTrace(error),
@@ -34,14 +34,22 @@ Bugsense.Errors = (function () {
         line = error.line,
         klass = url && line ? TraceKit.computeStackTrace.guessFunctionName(url, line) : "unknown";
     // errorHash = this.computeErrorHash(this.getOffendingLine(stacktrace, line), msg[1], line, klass, this.dataFixture.appVersion)
+        //
+
+    unhandled = unhandled || false;
+
     crash = extend(Bugsense.generateFixture(), {
       'exception': {
         'message': message,
         'where': [ url, line ].join( ':' ),
         'klass': klass,
         'backtrace': (stacktrace && stacktrace.length) ? stacktrace : [],
-        'breadcrumbs': Bugsense.breadcrumbs
+        'breadcrumbs': Bugsense.breadcrumbs,
       },
+      'request': {
+        'user_id': (Bugsense.config.userIdentifier || 'unknown'),
+        'handled': unhandled ? 0 : 1
+      }
     });
     crash.application_environment.log_data = extend(Bugsense.extraData, error.custom_data)
 
@@ -63,12 +71,12 @@ Bugsense.Errors = (function () {
   };
 
 
-  Bugsense.notify = function(data, custom_data) {
+  Bugsense.notify = function(data, custom_data, unhandled) {
     var parsedError = {};
     if(custom_data) data.custom_data = custom_data;
     parsedError = parse(data);
 
-    Bugsense.Network.send(generateExceptionData(parsedError), 'POST');
+    Bugsense.Network.send(generateExceptionData(parsedError, unhandled), 'POST');
   };
 
   window.onerror = function(exception, url, line, column, errorobj) {
@@ -82,7 +90,7 @@ Bugsense.Errors = (function () {
           line: line,
           column: column,
           errorobj: errorobj
-        });
+        }, undefined, true);
       } else {
         var msg = 'You need a BugSense API key to use bugsense.js.';
         if('warn' in console && !Bugsense.config.silent) console.warn(msg)

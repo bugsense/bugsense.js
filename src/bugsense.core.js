@@ -30,7 +30,8 @@ window.Bugsense = (function(){
         'version' : '2.2.0'
       },
       request: {
-        'user_id': (Bugsense.config.userIdentifier || 'unknown'),
+        'user_id': undefined,
+        'handled': 0,
       },
       exception: {
         'message' : null,
