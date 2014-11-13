@@ -12,7 +12,7 @@ Bugsense.Cache = (function() {
         this.sendCachedReport();
     },
     update: function () {
-      Lockr.hset('bugsense_cache', this._queue);
+      Lockr.set('bugsense_cache', this._queue);
     },
     sendCachedReport: function() {
       // do stuff here

@@ -10,10 +10,9 @@ Bugsense.Network = (function() {
       net.open(method, this.getPostURL(), true );
       net.setRequestHeader('X-BugSense-Api-Key', Bugsense.config.apiKey);
       net.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-      var that = this;
       net.onerror = function () {
         /* cache the report */
-        that.cacheReport(data);
+        Bugsense.Cache.cacheReport(data);
       }
       function successHandler() {
         if (net && net.readyState != 4) { return; }
@@ -21,7 +20,7 @@ Bugsense.Network = (function() {
           return false;
         }
         // some console.log implementations don't support multiple parameters, guess it's okay in this case to concatenate
-        if ('console' in window) {
+        if ('console' in window && !Bugsense.config.silent) {
           console.log('logged 1 error to Bugsense, status: ' + net.responseText);
         }
       };

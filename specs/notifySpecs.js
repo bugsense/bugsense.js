@@ -39,13 +39,12 @@ describe("Bugsense::Notify server", function(){
         { "Content-Type": "application/json" },
         JSON.stringify({eid: '123123123'})
     );
-    expect(response).toBe(false);
 
     var req = server.requests[0]
     var url = req.url.split('=');
 
     /* Testing url */
-    expect(url[0]).toBe('https://www.bugsense.com/api/errors?cacheBuster');
+    expect(url[0]).toBe('https://mint.splunk.com/api/errors?cacheBuster');
     expect(url[1]).toMatch(/\d/);
 
     // /* Request headers */
@@ -53,10 +52,12 @@ describe("Bugsense::Notify server", function(){
     expect(req.requestHeaders['Content-Type']).toEqual('application/x-www-form-urlencoded;charset=utf-8');
 
     var body = JSON.parse(decodeURIComponent(req.requestBody).replace('data=',''));
-    expect(body.application_environment.user_agent).toMatch(/Firefox|Chrome|PhantomJS 1.9.7/);
-    expect(body.application_environment.osver).toMatch(/Intel Mac OS X|Linux x86_64/);
+    expect(body.application_environment.user_agent).toMatch(/Firefox|Chrome|PhantomJS/);
+    expect(body.application_environment.osver).toMatch(/PPC Mac OS X|Intel Mac OS X|Linux x86_64/);
     expect(body.exception.breadcrumbs.length).toEqual(1);
     expect(body.application_environment.log_data.testing).toBe("hey-oh");
     expect(body.application_environment.log_data.rotation).toBe("not supported");
+
+    expect(body.request.handled).toEqual(1);
   });
 });

@@ -8,8 +8,9 @@ window.Bugsense = (function(){
     appVersion: null,
     appname: null,
     osver: null,
-    url: 'https://www.bugsense.com/api/errors',
+    url: 'https://mint.splunk.com/api/errors',
     disableOnError: false,
+    silent: false,
     context: window
   };
 
@@ -26,10 +27,11 @@ window.Bugsense = (function(){
     return {
       client: {
         'name' : 'bugsense-js',
-        'version' : '2.0.1'
+        'version' : '2.2.0'
       },
       request: {
-        'user_id': (Bugsense.config.userIdentifier || 'unknown'),
+        'user_id': undefined,
+        'handled': 0,
       },
       exception: {
         'message' : null,

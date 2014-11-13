@@ -63,6 +63,7 @@ var forEach = function forEach ( obj, iterator ) {
   } );
 };
 
+var breaker = {};
 var each = function(obj, iterator, context) {
   if (obj == null) return;
   var nativeForEach = Array.prototype.forEach;

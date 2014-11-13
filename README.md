@@ -1,4 +1,4 @@
-# BugSense JavaScript SDK
+# BugSense JavaScript SDK [![Build Status](https://travis-ci.org/bugsense/bugsense.js.svg?branch=master)](https://travis-ci.org/bugsense/bugsense.js)
 
 [BugSense](http://www.bugsense.com) is the leading crash/quality reporting solution for Mobile developers. The bugsense.js libs brings this functionality to mobile web developers that develop mobile web apps, Phonegap apps and even Windows 8 Javascript apps.
 
@@ -47,6 +47,10 @@ default: ```{String} null```
 
 default: ```{Boolean} false```
 
+**```silent```** - Disables logging any kind of information to browser's console, in order to behave better in production environments
+
+default: ```{Boolean} false```
+
 ----
 
 ## Registering handled exceptions
@@ -62,7 +66,7 @@ try {
 ----
 
 ## ExtraData & Breadcrumbs
-You can add extraData to the BugSense crash reports as well as breacrumbs to help you debug your app faster!
+You can add extraData to the BugSense crash reports as well as breadcrumbs to help you debug your app faster!
 
 ### Managing extraData
 In order to add extra data in your instace, you can use the ```bugsense.addExtraData``` function.

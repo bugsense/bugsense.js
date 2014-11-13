@@ -23,7 +23,7 @@ describe('Bugsense::Instance', function  () {
 })
 describe('Bugsense::Configuration', function () {
   it('should have correct default attributes',function () {
-    expect(Bugsense.config.url).toBe('https://www.bugsense.com/api/errors');
+    expect(Bugsense.config.url).toBe('https://mint.splunk.com/api/errors');
     expect(Bugsense.config.apiKey).toBeNull();
   });
   it("should change correctly an attribute", function(){
@@ -32,13 +32,15 @@ describe('Bugsense::Configuration', function () {
       appname: 'theApp',
       appVersion: '1.1.1',
       userIdentifier: 'tsironis',
-      disableOnError: true
+      disableOnError: true,
+      silent: true
     });
     expect(Bugsense.config.apiKey).toBe("8a581d8a");
     expect(Bugsense.config.appname).toBe("theApp");
     expect(Bugsense.config.appVersion).toBe("1.1.1");
     expect(Bugsense.config.userIdentifier).toBe("tsironis");
     expect(Bugsense.config.disableOnError).toBe(true);
+    expect(Bugsense.config.silent).toBe(true);
   });
   it('should have backwards compatible init params', function() {
     Bugsense.initAndStartSession({
@@ -66,12 +68,12 @@ describe('Bugsense::Unique ID', function() {
 });
 xdescribe('Bugsense::Data fixture', function () {
   it("should have correct data fixture", function(){
-    expect(bugsense.config.VERSION).toBe('2.0.1');
+    expect(bugsense.config.VERSION).toBe('2.1.0');
     expect(bugsense.dataFixture.client.name).toBe("bugsense-js");
-    expect(bugsense.dataFixture.client.version).toBe("2.0.1");
+    expect(bugsense.dataFixture.client.version).toBe("2.1.0");
     expect(bugsense.dataFixture.application_environment.appname).toBe("theApp");
     expect(bugsense.dataFixture.application_environment.appver).toBe("1.1.1");
-    expect(bugsense.dataFixture.application_environment.osver).toMatch(/Intel Mac OS X|Linux x86_64/);
+    expect(bugsense.dataFixture.application_environment.osver).toMatch(/PPC Mac OS X|Intel Mac OS X|Linux x86_64/);
     expect(bugsense.dataFixture.application_environment.cordova).toBe("unknown");
     expect(bugsense.dataFixture.application_environment.device_name).toBe("unknown");
     expect(bugsense.dataFixture.application_environment.phone).toMatch(/MacIntel|Linux x86_64/);
