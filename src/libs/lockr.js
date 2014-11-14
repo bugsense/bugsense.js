@@ -1,7 +1,7 @@
 (function(root, factory) {
 
   if (typeof define === 'function' && define.amd) {
-    define(['exports'], function(exports) {
+    define('lockr', ['exports'], function(exports) {
       root.Lockr = factory(root, exports);
     });
   } else {
