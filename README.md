@@ -1,3 +1,5 @@
+**Project Deprecated!** [Read more...](http://blog.bugsense.com/post/61430499930/bugsense-to-join-splunk)
+
 # BugSense JavaScript SDK [![Build Status](https://travis-ci.org/bugsense/bugsense.js.svg?branch=master)](https://travis-ci.org/bugsense/bugsense.js)
 
 [BugSense](http://www.bugsense.com) is the leading crash/quality reporting solution for Mobile developers. The bugsense.js libs brings this functionality to mobile web developers that develop mobile web apps, Phonegap apps and even Windows 8 Javascript apps.
